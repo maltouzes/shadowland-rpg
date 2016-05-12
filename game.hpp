@@ -18,7 +18,7 @@ public:
 private:
         void render();
         void processEvents();
-        bool isSpriteClicked(sf::Sprite spr);
+        bool isSpriteClicked(sf::Sprite& spr);
 //        void getItem();
 
 private:

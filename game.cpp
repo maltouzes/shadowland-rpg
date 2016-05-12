@@ -55,21 +55,7 @@ void Game::render()
             mWindow.display();
 }
 
-/*void Game::getItem()
-{
-    //std::cout << sf::Mouse::getPosition(mWindow) << std::endl;
-    //if(sf::Vector2i localPosition = sf::Mouse::getPosition(mWindow).intersects(Game::monster.sMonster.getGlobalBounds()))
-    sf::Vector2i mousePos = sf::Mouse::getPosition(mWindow);
-    if(Game::monster.sMonster.getGlobalBounds().contains(sf::Mouse::getPosition()))
-    {
-        std::cout << "ok" << std::endl;
-    }
-    if(Game::monster.sMonster.getGlobalBounds().contains(mousePos))
-    {
-    }
-}*/
-
-bool Game::isSpriteClicked (sf::Sprite spr)
+bool Game::isSpriteClicked (sf::Sprite& spr)
 {
 
     if(sf::Mouse::getPosition(mWindow).x > spr.getGlobalBounds().left 
@@ -77,16 +63,6 @@ bool Game::isSpriteClicked (sf::Sprite spr)
            && sf::Mouse::getPosition(mWindow).y > spr.getGlobalBounds().top 
            && sf::Mouse::getPosition(mWindow).y < (spr.getGlobalBounds().top + spr.getGlobalBounds().height))
     {
-            std::cout << "ok" << std::endl;
+            monster.call();
     }
-/*    sf::Vector2i localPosition = sf::Mouse::getPosition(mWindow);
-    //const sf::Input& Input = render->GetInput();
-    if(localPosition.x > spr->getPosition().x 
-           && localPosition.x < spr->getPosition().x + spr->getSize().x
-           && localPosition.y > spr->getPosition().y 
-           && localPosition.y < spr->getPosition().y + spr->getSize().y)
-    {
-        return true;
-    }
-    */
 }

@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "monster.hpp"
+#include <string>
 
 Monster::Monster()
 {
@@ -10,4 +11,10 @@ Monster::Monster()
     }
     sMonster.setTexture(tMonster);
     sMonster.setScale(0.3, 0.3);
+}
+
+int Monster::call()
+{
+        std::cout << "monster" << std::endl;
+        return 0;
 }
