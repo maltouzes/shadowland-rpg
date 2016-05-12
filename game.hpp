@@ -5,7 +5,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include "monster.hpp"
+#include "item.hpp"
 
 class Game
 {
@@ -13,7 +13,7 @@ public:
         Game();
         void run();
         sf::RenderWindow mWindow;
-        Monster monster;
+        Item item;
 
 private:
         void render();

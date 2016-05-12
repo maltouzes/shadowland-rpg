@@ -4,7 +4,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "game.hpp"
-#include "monster.hpp"
+#include "item.hpp"
 
 Game::Game()
 : mWindow(sf::VideoMode(640, 480), "ShadowLand")
@@ -17,7 +17,7 @@ Game::Game()
     }
     sBackground.setTexture(tBackground);
     sBackground.setScale(2, 2);
-    Monster monster;
+    Item item;
 }
 
 void Game::run()
@@ -41,7 +41,7 @@ void Game::processEvents()
                 if(event.type == sf::Event::Closed) mWindow.close();
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    Game::isSpriteClicked(Game::monster.sMonster);
+                    Game::isSpriteClicked(Game::item.sItem);
                     //Game::getItem();
                 }
             }
@@ -51,7 +51,7 @@ void Game::render()
 {
             mWindow.clear();
             mWindow.draw(sBackground);
-            mWindow.draw(Game::monster.sMonster);
+            mWindow.draw(Game::item.sItem);
             mWindow.display();
 }
 
@@ -63,6 +63,6 @@ bool Game::isSpriteClicked (sf::Sprite& spr)
            && sf::Mouse::getPosition(mWindow).y > spr.getGlobalBounds().top 
            && sf::Mouse::getPosition(mWindow).y < (spr.getGlobalBounds().top + spr.getGlobalBounds().height))
     {
-            monster.call();
+            item.call();
     }
 }
