@@ -71,12 +71,13 @@ void Game::run()
 
     // set up AnimatedSprite
     AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
-    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(640, 700)/ 2));
+    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(1280, 1400)/ 2));
     animatedSprite.setScale(1.4, 1.4);
 
     sf::Clock frameClock;
-    float speed = 300.f; // 80.f
+    float speed = 80.f;
     bool noKeyWasPressed = true;
+    // if(!tBackground.loadFromFile("Asset/zelda-overworld.png"))
     if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
     {
         std::cout << "Failed to load background" << std::endl;
@@ -152,16 +153,26 @@ void Game::run()
         //sf::Vector2f viewCenter = view1.getCenter();
         //std::cout << viewCenter.x << "hehe" << std::endl;
         sf::Vector2f playerPos = animatedSprite.getPosition();
-        std::cout << "PlayerPos x " << playerPos.x << "PlayerPos.y " << playerPos.y << std::endl;
+        // std::cout << "PlayerPos x " << playerPos.x << "PlayerPos.y " << playerPos.y << std::endl;
+
+        sf::FloatRect posBackground = sBackground.getGlobalBounds(); // for background.x
+        float backgroundX = (posBackground.width - posBackground.left);
+        float backgroundY = (posBackground.height- posBackground.top);
+
         view1.setCenter(animatedSprite.getPosition());
-        if (playerPos.x < 320) view1.setCenter(320, playerPos.y);
-        if (playerPos.x > 960) view1.setCenter(960, playerPos.y);
-        if (playerPos.y < 240) view1.setCenter(playerPos.x, 240);
-        if (playerPos.y > 1040) view1.setCenter(playerPos.x, 1040);
-        if (playerPos.x < 320 && playerPos.y < 240) view1.setCenter(320, 240);
-        if (playerPos.x > 960 && playerPos.y < 240) view1.setCenter(960, 240);
-        if (playerPos.x < 320 && playerPos.y > 1040) view1.setCenter(320, 1040);
-        if (playerPos.x > 960 && playerPos.y > 1040) view1.setCenter(960, 1040);
+        //if (playerPos.x < 320) view1.setCenter(320, playerPos.y);
+        if (playerPos.x < (vSize.x / 2 )) view1.setCenter((vSize.x / 2), playerPos.y);
+
+        if (playerPos.x > (backgroundX - (vSize.x / 2))) view1.setCenter((backgroundX - (vSize.x / 2)), playerPos.y);
+        if (playerPos.y < (vSize.y / 2)) view1.setCenter(playerPos.x, (vSize.y / 2));
+        if (playerPos.y > (backgroundY - vSize.y / 2)) view1.setCenter(playerPos.x, (backgroundY - (vSize.y / 2)));
+
+        //if (playerPos.x < 320 && playerPos.y < 240) view1.setCenter(320, 240);
+        if (playerPos.x < (vSize.x / 2) && playerPos.y < (vSize.y / 2)) view1.setCenter((vSize.x / 2), (vSize.y / 2));
+
+        if (playerPos.x > (backgroundX - (vSize.x / 2)) && playerPos.y < (vSize.y / 2)) view1.setCenter((backgroundX - (vSize.x / 2)), (vSize.y / 2));
+        if (playerPos.x < (vSize.x / 2) && playerPos.y > (backgroundY - (vSize.y / 2))) view1.setCenter((vSize.x / 2), (backgroundY - (vSize.y / 2)));
+        if (playerPos.x > (backgroundX - (vSize.x / 2)) && playerPos.y > (backgroundY - (vSize.y / 2))) view1.setCenter((backgroundX - (vSize.x / 2)), (backgroundY - (vSize.y / 2)));
 
         window.setView(view1);
         // if no key was pressed stop the animation
