@@ -12,7 +12,7 @@ Game::Game()
 : window(sf::VideoMode(640, 480), "ShadowLand")
 {
     sf::Image icon;
-    if(!icon.loadFromFile("Asset/lmms.png"));
+    if(!icon.loadFromFile("Asset/icon.png"));
     window.setIcon(512, 512, icon.getPixelsPtr());
 
 }
@@ -72,10 +72,10 @@ void Game::run()
     // set up AnimatedSprite
     AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
     animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(640, 700)/ 2));
-    animatedSprite.setScale(1, 1);
+    animatedSprite.setScale(1.4, 1.4);
 
     sf::Clock frameClock;
-    float speed = 80.f;
+    float speed = 300.f; // 80.f
     bool noKeyWasPressed = true;
     if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
     {
@@ -83,7 +83,7 @@ void Game::run()
     }
  
     sBackground.setTexture(tBackground);
-    sBackground.setScale(0.5, 0.5);
+    //sBackground.setScale(0.5, 0.5);
 
 
     while(window.isOpen())
@@ -146,10 +146,24 @@ void Game::run()
 
         animatedSprite.play(*currentAnimation);
         animatedSprite.move(movement * frameTime.asSeconds());
-        view1.setCenter(animatedSprite.getPosition());
+        //view1.setCenter(animatedSprite.getPosition());
         //view1.setCenter(400, 300);
-        window.setView(view1);
 
+        //sf::Vector2f viewCenter = view1.getCenter();
+        //std::cout << viewCenter.x << "hehe" << std::endl;
+        sf::Vector2f playerPos = animatedSprite.getPosition();
+        std::cout << "PlayerPos x " << playerPos.x << "PlayerPos.y " << playerPos.y << std::endl;
+        view1.setCenter(animatedSprite.getPosition());
+        if (playerPos.x < 320) view1.setCenter(320, playerPos.y);
+        if (playerPos.x > 960) view1.setCenter(960, playerPos.y);
+        if (playerPos.y < 240) view1.setCenter(playerPos.x, 240);
+        if (playerPos.y > 1040) view1.setCenter(playerPos.x, 1040);
+        if (playerPos.x < 320 && playerPos.y < 240) view1.setCenter(320, 240);
+        if (playerPos.x > 960 && playerPos.y < 240) view1.setCenter(960, 240);
+        if (playerPos.x < 320 && playerPos.y > 1040) view1.setCenter(320, 1040);
+        if (playerPos.x > 960 && playerPos.y > 1040) view1.setCenter(960, 1040);
+
+        window.setView(view1);
         // if no key was pressed stop the animation
         if (noKeyWasPressed)
         {
