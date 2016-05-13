@@ -16,10 +16,17 @@ Game::Game()
 
 void Game::run()
 {
+    // Two way to make view
+    // create a view with the rectangular area of the 2D world to show
+    //sf::View view1(sf::FloatRect(640, 480, 300, 200));
+    // create a view with its center and size
+    sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(640, 480));
     // setup window
+
     sf::Vector2i screenDimensions(640,480);
     //sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Animations!");
     window.setFramerateLimit(60);
+    window.setView(view1);
 
     // load texture (spritesheet)
     sf::Texture texture;
@@ -61,19 +68,19 @@ void Game::run()
 
     // set up AnimatedSprite
     AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
-    animatedSprite.setPosition(sf::Vector2f(screenDimensions / 2));
-    animatedSprite.setScale(2, 2);
+    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(640, 680)/ 2));
+    animatedSprite.setScale(1, 1);
 
     sf::Clock frameClock;
     float speed = 80.f;
     bool noKeyWasPressed = true;
-    if(!tBackground.loadFromFile("Asset/background.png"))
+    if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
     {
         std::cout << "Failed to load background" << std::endl;
     }
  
     sBackground.setTexture(tBackground);
-    sBackground.setScale(2, 2);
+    sBackground.setScale(0.5, 0.5);
 
 
     while(window.isOpen())
@@ -117,6 +124,9 @@ void Game::run()
         }
         animatedSprite.play(*currentAnimation);
         animatedSprite.move(movement * frameTime.asSeconds());
+        view1.setCenter(animatedSprite.getPosition());
+        //view1.setCenter(400, 300);
+        window.setView(view1);
 
         // if no key was pressed stop the animation
         if (noKeyWasPressed)
