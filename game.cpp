@@ -11,6 +11,9 @@
 Game::Game()
 : window(sf::VideoMode(640, 480), "ShadowLand")
 {
+    sf::Image icon;
+    if(!icon.loadFromFile("Asset/lmms.png"));
+    window.setIcon(512, 512, icon.getPixelsPtr());
 
 }
 
@@ -68,7 +71,7 @@ void Game::run()
 
     // set up AnimatedSprite
     AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
-    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(640, 680)/ 2));
+    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(640, 700)/ 2));
     animatedSprite.setScale(1, 1);
 
     sf::Clock frameClock;
@@ -122,6 +125,25 @@ void Game::run()
             movement.x += speed;
             noKeyWasPressed = false;
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+        {
+                sf::Vector2f vSize = view1.getSize();
+                std::cout << vSize.x << std::endl;
+                std::cout << vSize.y << std::endl;
+                sf::Vector2u wSize = window.getSize();
+                std::cout << wSize.x << std::endl;
+                std::cout << wSize.x << std::endl;
+                if (vSize.x < 1000 && vSize.y < 1000 )
+                {
+                    view1.zoom(1.01f);
+                }
+        }
+        sf::Vector2f vSize = view1.getSize();
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 640 && vSize.y > 480)
+        {
+                    view1.zoom(0.99f);
+        }
+
         animatedSprite.play(*currentAnimation);
         animatedSprite.move(movement * frameTime.asSeconds());
         view1.setCenter(animatedSprite.getPosition());

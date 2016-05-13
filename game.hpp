@@ -33,6 +33,8 @@ private:
         sf::Texture tBackground;
         sf::Texture tAnimation;
         sf::Sprite sBackground;
+        sf::Image icon;
+        sf::Vector2f vSize;
 };
 
 #endif
