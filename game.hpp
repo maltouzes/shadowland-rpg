@@ -6,23 +6,32 @@
 #include <SFML/System.hpp>
 
 #include "item.hpp"
+#include "Animation.hpp"
+#include "AnimatedSprite.hpp"
 
 class Game
 {
 public:
         Game();
         void run();
-        sf::RenderWindow mWindow;
+        sf::RenderWindow window;
         Item item;
+        Animation animation;
+        Animation* currentAnimation;
+        AnimatedSprite animatedSprite;
+        sf::Clock frameClock;
+        sf::Vector2i screenDimensions;
+        sf::Vector2f movement;
+        sf::Time frameTime;
+        void render();
 
 private:
-        void render();
         void processEvents();
         bool isSpriteClicked(sf::Sprite& spr);
-//        void getItem();
 
 private:
         sf::Texture tBackground;
+        sf::Texture tAnimation;
         sf::Sprite sBackground;
 };
 

@@ -7,8 +7,7 @@ INSTALL?=install
 
 main: main.o
 	@echo "** Building Game.cpp"
-#g++ -std=c++11 -o jeux AnimatedSprite.hpp AnimatedSprite.cpp Animation.hpp Animation.cpp Game.hpp Game.cpp main.cpp -I/home/melanie/Programmes/SFML-2.3/include -L/home/melanie/Programmes/SFML-2.3/lib -lsfml-graphics -lsfml-window -lsfml-system
-	g++ -std=c++11 -o jeux item.hpp item.cpp game.hpp game.cpp main.cpp -I/home/melanie/Programmes/SFML-2.3/include -L/home/melanie/Programmes/SFML-2.3/lib -lsfml-graphics -lsfml-window -lsfml-system
+	g++ -std=c++11 -o jeux Animation.hpp Animation.cpp AnimatedSprite.hpp AnimatedSprite.cpp item.cpp item.hpp game.hpp game.cpp main.cpp -I/home/melanie/Programmes/SFML-2.3/include -L/home/melanie/Programmes/SFML-2.3/lib -L/home/melanie/Programmes/cpp/sfml/point-and-click/lib -lsfml-graphics -lsfml-window -lsfml-system
 	export LD_LIBRARY_PATH=/home/melanie/Programmes/SFML-2.3/lib
 	@echo "Please run jeux"
 
