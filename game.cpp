@@ -75,7 +75,7 @@ void Game::run()
     animatedSprite.setScale(1.4, 1.4);
 
     sf::Clock frameClock;
-    float speed = 80.f;
+    float speed = 80.f; // 80.f
     bool noKeyWasPressed = true;
     // if(!tBackground.loadFromFile("Asset/zelda-overworld.png"))
     if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
@@ -85,6 +85,9 @@ void Game::run()
  
     sBackground.setTexture(tBackground);
     //sBackground.setScale(0.5, 0.5);
+    sf::FloatRect posBackground = sBackground.getGlobalBounds(); // for background.x
+    float backgroundX = (posBackground.width - posBackground.left);
+    float backgroundY = (posBackground.height- posBackground.top);
 
 
     while(window.isOpen())
@@ -100,27 +103,30 @@ void Game::run()
 
         sf::Time frameTime = frameClock.restart();
 
+        sf::Vector2f playerPos = animatedSprite.getPosition();
         // if a key was pressed set the correct animation and move correctly
         sf::Vector2f movement(0.f, 0.f);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && playerPos.y >= 0)
         {
             currentAnimation = &walkingAnimationUp;
             movement.y -= speed;
             noKeyWasPressed = false;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && playerPos.y <= backgroundY - 45)
         {
             currentAnimation = &walkingAnimationDown;
             movement.y += speed;
             noKeyWasPressed = false;
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && playerPos.x >= 0)
         {
             currentAnimation = &walkingAnimationLeft;
             movement.x -= speed;
             noKeyWasPressed = false;
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && playerPos.x <= backgroundX - 45)
         {
             currentAnimation = &walkingAnimationRight;
             movement.x += speed;
@@ -152,12 +158,9 @@ void Game::run()
 
         //sf::Vector2f viewCenter = view1.getCenter();
         //std::cout << viewCenter.x << "hehe" << std::endl;
-        sf::Vector2f playerPos = animatedSprite.getPosition();
+        // here!!!!sf::Vector2f playerPos = animatedSprite.getPosition();
         // std::cout << "PlayerPos x " << playerPos.x << "PlayerPos.y " << playerPos.y << std::endl;
 
-        sf::FloatRect posBackground = sBackground.getGlobalBounds(); // for background.x
-        float backgroundX = (posBackground.width - posBackground.left);
-        float backgroundY = (posBackground.height- posBackground.top);
 
         view1.setCenter(animatedSprite.getPosition());
         //if (playerPos.x < 320) view1.setCenter(320, playerPos.y);
