@@ -7,6 +7,7 @@
 #include "item.hpp"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
+#include "map_manager.hpp"
 
 Game::Game()
 : window(sf::VideoMode(640, 480), "ShadowLand")
@@ -75,14 +76,79 @@ void Game::run()
     animatedSprite.setScale(1.4, 1.4);
 
     sf::Clock frameClock;
-    float speed = 80.f; // 80.f
+    float speed = 480.f; // 80.f
     bool noKeyWasPressed = true;
-    // if(!tBackground.loadFromFile("Asset/zelda-overworld.png"))
     if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
     {
         std::cout << "Failed to load background" << std::endl;
     }
- 
+
+
+    // map and map_manager
+    std::vector<int> level0;
+    std::vector<int> level1;
+    std::vector<int> level2;
+    std::vector<int> level3;
+    std::vector<int> level4;
+
+    std::string fileTmx = "Asset/auberge-outside-ok.tmx";
+
+    MapManager mapManager;
+    mapManager.initLayerName(fileTmx);
+
+    std::string layer0 = mapManager.getLayerName(1);
+    std::string layer1 = mapManager.getLayerName(2);
+    std::string layer2 = mapManager.getLayerName(3);
+    std::string layer3 = mapManager.getLayerName(4);
+    std::string layer4 = mapManager.getLayerName(5);
+
+    mapManager.setVector(level0, level1, level2, level3, level4, layer0, layer1, layer2, layer3, layer4, fileTmx);
+
+    // std::vector<double> v;
+    // double* a = &v[0];
+    int level0Map[1600];
+    int level1Map[1600];
+    int level2Map[1600];
+    int level3Map[1600];
+    int level4Map[1600];
+    std::copy(level0.begin(), level0.end(), level0Map);
+    std::copy(level1.begin(), level1.end(), level1Map);
+    std::copy(level2.begin(), level2.end(), level2Map);
+    std::copy(level3.begin(), level3.end(), level3Map);
+    std::copy(level4.begin(), level4.end(), level4Map);
+
+    /*const int level1[] = 
+    {
+        54, 55,
+        58, 59,
+    };*/
+
+    if(!map0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level0Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map1.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level2Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map3.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level3Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map4.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level4Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+
+    map0.setScale(4.f, 4.f);
+    map1.setScale(4.f, 4.f);
+    map2.setScale(4.f, 4.f);
+    map3.setScale(4.f, 4.f);
+    map4.setScale(4.f, 4.f);
     sBackground.setTexture(tBackground);
     //sBackground.setScale(0.5, 0.5);
     sf::FloatRect posBackground = sBackground.getGlobalBounds(); // for background.x
@@ -189,9 +255,15 @@ void Game::run()
         animatedSprite.update(frameTime);
 
         // draw
+        // Use render !!!
         window.clear();
-        window.draw(sBackground);
+        // window.draw(sBackground);
+        window.draw(map0);
+        window.draw(map1);
+        window.draw(map2);
+        window.draw(map3);
         window.draw(animatedSprite);
+        window.draw(map4);
         window.display();
     }
 }
