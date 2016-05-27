@@ -17,14 +17,19 @@ Game::Game()
     window.setIcon(512, 512, icon.getPixelsPtr());
 
 }
-
+// To change the map size:
+// 1) change view1
+// 2) change levlxMap[]
+// 3) chage mapx.load()
+// 4) change sf::Keyboard::V
 void Game::run()
 {
     // Two way to make view
     // create a view with the rectangular area of the 2D world to show
     //sf::View view1(sf::FloatRect(640, 480, 300, 200));
     // create a view with its center and size
-    sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(640, 480));
+    // sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(640, 480));
+    sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(160, 120)); // change the second if the map is bigger/smaller
     // setup window
 
     sf::Vector2i screenDimensions(640,480);
@@ -73,12 +78,14 @@ void Game::run()
     // set up AnimatedSprite
     AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
     animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(1280, 1400)/ 2));
-    animatedSprite.setScale(1.4, 1.4);
+    // animatedSprite.setScale(1.4, 1.4);
+    animatedSprite.setScale(0.4, 0.4);
 
     sf::Clock frameClock;
-    float speed = 480.f; // 80.f
+    float speed = 60.f; // 80.f
     bool noKeyWasPressed = true;
-    if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
+    // if(!tBackground.loadFromFile("Asset/auberge-new.png"))
+    if(!tBackground.loadFromFile("Asset/testpourri.png"))
     {
         std::cout << "Failed to load background" << std::endl;
     }
@@ -91,7 +98,8 @@ void Game::run()
     std::vector<int> level3;
     std::vector<int> level4;
 
-    std::string fileTmx = "Asset/auberge-outside-ok.tmx";
+    // std::string fileTmx = "Asset/auberge-new.tmx";
+    std::string fileTmx = "Asset/testpourri.tmx";
 
     MapManager mapManager;
     mapManager.initLayerName(fileTmx);
@@ -106,11 +114,11 @@ void Game::run()
 
     // std::vector<double> v;
     // double* a = &v[0];
-    int level0Map[1600];
-    int level1Map[1600];
-    int level2Map[1600];
-    int level3Map[1600];
-    int level4Map[1600];
+    int level0Map[10000]; // 1600
+    int level1Map[10000];
+    int level2Map[10000];
+    int level3Map[10000];
+    int level4Map[10000];
     std::copy(level0.begin(), level0.end(), level0Map);
     std::copy(level1.begin(), level1.end(), level1Map);
     std::copy(level2.begin(), level2.end(), level2Map);
@@ -123,32 +131,33 @@ void Game::run()
         58, 59,
     };*/
 
-    if(!map0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level0Map, 20, 20))
+    // Not 100! 20
+    if(!map0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level0Map, 100, 100))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map1.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1Map, 20, 20))
+    if(!map1.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1Map, 100, 100))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level2Map, 20, 20))
+    if(!map2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level2Map, 100, 100))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map3.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level3Map, 20, 20))
+    if(!map3.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level3Map, 100, 100))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map4.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level4Map, 20, 20))
+    if(!map4.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level4Map, 100, 100))
     {
         std::cout << "Can't add objects" << std::endl;
     }
 
-    map0.setScale(4.f, 4.f);
+    /*map0.setScale(4.f, 4.f);
     map1.setScale(4.f, 4.f);
     map2.setScale(4.f, 4.f);
     map3.setScale(4.f, 4.f);
-    map4.setScale(4.f, 4.f);
+    map4.setScale(4.f, 4.f);*/
     sBackground.setTexture(tBackground);
     //sBackground.setScale(0.5, 0.5);
     sf::FloatRect posBackground = sBackground.getGlobalBounds(); // for background.x
@@ -206,13 +215,15 @@ void Game::run()
                 sf::Vector2u wSize = window.getSize();
                 std::cout << wSize.x << std::endl;
                 std::cout << wSize.x << std::endl;
+                // if (vSize.x < 1000 && vSize.y < 1000 )
                 if (vSize.x < 1000 && vSize.y < 1000 )
                 {
                     view1.zoom(1.01f);
                 }
         }
         sf::Vector2f vSize = view1.getSize();
-        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 640 && vSize.y > 480)
+        // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 640 && vSize.y > 480)
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 160 && vSize.y > 120)
         {
                     view1.zoom(0.99f);
         }

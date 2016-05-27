@@ -23,8 +23,8 @@ public:
     int getNumLayer();
     int initLayerName(std::string filename);
     std::string getLayerName(int numLayer);
-    std::string getWidth();
-    std::string getHeight();
+    int getWidth();
+    int getHeight();
 
 private:
     std::string layer;
@@ -34,6 +34,7 @@ private:
     int lineOnlyWithNumbers;
     std::ifstream myFile;
     std::ifstream myFile1;
+    std::ifstream myFile2;
     int numberOfLines;
     std::string m_fileName;
     std::string m_background;
@@ -53,8 +54,10 @@ private:
     std::string layer5Name;
 
     std::size_t posEnd;
-    std::string mapWidth;
-    std::string mapHeight;
+    int mapWidth;
+    int mapHeight;
+    std::string stringMapWidth;
+    std::string stringMapHeight;
 };
 
 #endif
