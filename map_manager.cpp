@@ -23,7 +23,6 @@ void MapManager::setVector(std::vector<int>& level0, std::vector<int>& level1, s
   MapManager::mapWidth = 0;
   getWidth();
   getHeight();
-  std::cout << "mapWidth: " << mapWidth << std::endl;;
 
   myFile.open(fileName.c_str());
   while ( getline (myFile,line) )
@@ -31,7 +30,6 @@ void MapManager::setVector(std::vector<int>& level0, std::vector<int>& level1, s
       if(line.find("layer name=") != std::string::npos) this->m_numLayer += 1;
   }
   myFile.close();
-  std::cout << "mapWidth: " << mapWidth << std::endl;;
   
 
   myFile.open(fileName.c_str());
@@ -39,7 +37,6 @@ void MapManager::setVector(std::vector<int>& level0, std::vector<int>& level1, s
   numberOfLines = std::count(std::istreambuf_iterator<char>(myFile), 
                                          std::istreambuf_iterator<char>(), '\n');
   myFile.close();
-  std::cout << "mapWidth: " << mapWidth << std::endl;;
   myFile.open(fileName.c_str());
   layer = "background";
   char chars[] = "abcdefghijklmnopqrstuvwxyzCUTF?é_()-.=/ <>\"";
@@ -66,13 +63,9 @@ void MapManager::setVector(std::vector<int>& level0, std::vector<int>& level1, s
     if (numLine > 5 && numLine < ((mapWidth * mapHeight) + 6) && layer == background) 
     {
         level0.push_back(lineOnlyWithNumbers);
-        std::cout << "mapWidth: " << mapWidth << std::endl;;
-        std::cout << "mapHeight: " << mapHeight << std::endl;
     }
     if (numLine > ((mapWidth * mapHeight) + 9) && numLine < ((mapWidth * mapHeight * 2) + 10) && layer == "backgroundup") 
     {
-        std::cout << "mapWidth: " << mapWidth << std::endl;;
-        std::cout << "mapHeight: " << mapHeight << std::endl;
         level1.push_back(lineOnlyWithNumbers);
     }
     if (numLine > ((mapWidth * mapHeight * 2) + 13) && numLine < ((mapWidth * mapHeight * 3) + 14) && layer == "block") level2.push_back(lineOnlyWithNumbers);
@@ -158,21 +151,16 @@ std::string MapManager::getLayerName(int numLayer)
 int MapManager::getWidth()
 {
   myFile2.open(MapManager::m_fileName.c_str());
-  std::cout << "1" << std::endl;
   while ( getline (myFile2,line) )
   {
-      std::cout << "2" << std::endl;
       if(line.find("layer name") != std::string::npos && MapManager::mapWidth == 0)
       {
-          std::cout << "3" << std::endl;
           std::size_t posWidth = line.find("width=\"");
           std::size_t posHeight = line.find("height=\"");
           posWidth += 7; // lenght of the world in tmx file
           int lengthWidth = posHeight - posWidth - 2;
           std::string stringMapWidth = line.substr (posWidth,lengthWidth);
           MapManager::mapWidth = std::stoi(stringMapWidth);
-
-          std::cout << "mapWidth: " << mapWidth << std::endl;
       }
   }
   myFile2.close();
@@ -191,8 +179,6 @@ int MapManager::getHeight()
           std::size_t posEnd = line.find("\">");
           std::string stringMapHeight = line.substr (posHeight,(posEnd - posHeight));
           MapManager::mapHeight = std::stoi(stringMapHeight);
-
-          std::cout << "mapHeight: " << mapHeight << std::endl;
       }
   }
   myFile1.close();

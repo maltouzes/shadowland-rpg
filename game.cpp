@@ -8,6 +8,7 @@
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
 #include "map_manager.hpp"
+#include "collisions.hpp"
 
 Game::Game()
 : window(sf::VideoMode(640, 480), "ShadowLand")
@@ -24,17 +25,20 @@ Game::Game()
 // 4) change sf::Keyboard::V
 void Game::run()
 {
+    sf::Clock clock;
+    levelNumber = false;
     // Two way to make view
     // create a view with the rectangular area of the 2D world to show
     //sf::View view1(sf::FloatRect(640, 480, 300, 200));
     // create a view with its center and size
-    // sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(640, 480));
-    sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(160, 120)); // change the second if the map is bigger/smaller
+    sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(640, 480));
+    //sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(160, 120)); // change the second if the map is bigger/smaller
     // setup window
 
     sf::Vector2i screenDimensions(640,480);
     //sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Animations!");
-    window.setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
+    // window.setFramerateLimit(60);
     window.setView(view1);
 
     // load texture (spritesheet)
@@ -78,14 +82,14 @@ void Game::run()
     // set up AnimatedSprite
     AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
     animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(1280, 1400)/ 2));
-    // animatedSprite.setScale(1.4, 1.4);
-    animatedSprite.setScale(0.4, 0.4);
+    animatedSprite.setScale(1.4, 1.4);
+    // animatedSprite.setScale(0.4, 0.4);
 
     sf::Clock frameClock;
     float speed = 60.f; // 80.f
     bool noKeyWasPressed = true;
-    // if(!tBackground.loadFromFile("Asset/auberge-new.png"))
-    if(!tBackground.loadFromFile("Asset/testpourri.png"))
+    if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
+    // if(!tBackground.loadFromFile("Asset/testpourri.png"))
     {
         std::cout << "Failed to load background" << std::endl;
     }
@@ -98,11 +102,22 @@ void Game::run()
     std::vector<int> level3;
     std::vector<int> level4;
 
-    // std::string fileTmx = "Asset/auberge-new.tmx";
-    std::string fileTmx = "Asset/testpourri.tmx";
+    std::vector<int> level1_0;
+    std::vector<int> level1_1;
+    std::vector<int> level1_2;
+    std::vector<int> level1_3;
+    std::vector<int> level1_4;
+
+    // std::string fileTmx = "Asset/testblock.tmx";
+    std::string fileTmx = "Asset/auberge-outside-ok.tmx";
+    std::string fileTmx2 = "Asset/auberge-new.tmx";
+    // std::string fileTmx = "Asset/testpourri.tmx";
 
     MapManager mapManager;
     mapManager.initLayerName(fileTmx);
+
+    MapManager mapManager2;
+    mapManager2.initLayerName(fileTmx2);
 
     std::string layer0 = mapManager.getLayerName(1);
     std::string layer1 = mapManager.getLayerName(2);
@@ -110,63 +125,111 @@ void Game::run()
     std::string layer3 = mapManager.getLayerName(4);
     std::string layer4 = mapManager.getLayerName(5);
 
+    std::string layer1_0 = mapManager2.getLayerName(1);
+    std::string layer1_1 = mapManager2.getLayerName(2);
+    std::string layer1_2 = mapManager2.getLayerName(3);
+    std::string layer1_3 = mapManager2.getLayerName(4);
+    std::string layer1_4 = mapManager2.getLayerName(5);
+
     mapManager.setVector(level0, level1, level2, level3, level4, layer0, layer1, layer2, layer3, layer4, fileTmx);
+
+    mapManager2.setVector(level1_0, level1_1, level1_2, level1_3, level1_4, layer1_0, layer1_1, layer1_2, layer1_3, layer1_4, fileTmx2);
 
     // std::vector<double> v;
     // double* a = &v[0];
-    int level0Map[10000]; // 1600
-    int level1Map[10000];
-    int level2Map[10000];
-    int level3Map[10000];
-    int level4Map[10000];
+    int level0Map[400]; // 1600
+    int level1Map[400];
+    int level2Map[400];
+    int level3Map[400];
+    int level4Map[400];
     std::copy(level0.begin(), level0.end(), level0Map);
     std::copy(level1.begin(), level1.end(), level1Map);
     std::copy(level2.begin(), level2.end(), level2Map);
     std::copy(level3.begin(), level3.end(), level3Map);
     std::copy(level4.begin(), level4.end(), level4Map);
 
-    /*const int level1[] = 
-    {
-        54, 55,
-        58, 59,
-    };*/
+    int level1_0Map[400]; // 1600
+    int level1_1Map[400];
+    int level1_2Map[400];
+    int level1_3Map[400];
+    int level1_4Map[400];
+    std::copy(level1_0.begin(), level1_0.end(), level1_0Map);
+    std::copy(level1_1.begin(), level1_1.end(), level1_1Map);
+    std::copy(level1_2.begin(), level1_2.end(), level1_2Map);
+    std::copy(level1_3.begin(), level1_3.end(), level1_3Map);
+    std::copy(level1_4.begin(), level1_4.end(), level1_4Map);
+
+    int * current3Map;
+   current3Map = level3Map;
+
 
     // Not 100! 20
-    if(!map0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level0Map, 100, 100))
+    if(!map0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level0Map, 20, 20))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map1.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1Map, 100, 100))
+    if(!map1.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1Map, 20, 20))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level2Map, 100, 100))
+    if(!map2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level2Map, 20, 20))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map3.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level3Map, 100, 100))
+    if(!map3.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level3Map, 20, 20))
     {
         std::cout << "Can't add objects" << std::endl;
     }
-    if(!map4.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level4Map, 100, 100))
+    if(!map4.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level4Map, 20, 20))
     {
         std::cout << "Can't add objects" << std::endl;
     }
 
-    /*map0.setScale(4.f, 4.f);
+    if(!map1_0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1_0Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map1_1.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1_1Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map1_2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1_2Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map1_3.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1_3Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+    if(!map1_4.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1_4Map, 20, 20))
+    {
+        std::cout << "Can't add objects" << std::endl;
+    }
+
+    map0.setScale(4.f, 4.f);
     map1.setScale(4.f, 4.f);
     map2.setScale(4.f, 4.f);
     map3.setScale(4.f, 4.f);
-    map4.setScale(4.f, 4.f);*/
+    map4.setScale(4.f, 4.f);
+
+    map1_0.setScale(4.f, 4.f);
+    map1_1.setScale(4.f, 4.f);
+    map1_2.setScale(4.f, 4.f);
+    map1_3.setScale(4.f, 4.f);
+    map1_4.setScale(4.f, 4.f);
+
     sBackground.setTexture(tBackground);
     //sBackground.setScale(0.5, 0.5);
     sf::FloatRect posBackground = sBackground.getGlobalBounds(); // for background.x
     float backgroundX = (posBackground.width - posBackground.left);
     float backgroundY = (posBackground.height- posBackground.top);
 
+    CollisionsDetection collisions;
+
 
     while(window.isOpen())
     {
+        sf::Time elapsed1 = clock.getElapsedTime();
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -183,29 +246,41 @@ void Game::run()
         sf::Vector2f movement(0.f, 0.f);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && playerPos.y >= 0)
         {
-            currentAnimation = &walkingAnimationUp;
-            movement.y -= speed;
-            noKeyWasPressed = false;
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up"))
+            {
+                currentAnimation = &walkingAnimationUp;
+                movement.y -= speed;
+                noKeyWasPressed = false;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && playerPos.y <= backgroundY - 45)
         {
-            currentAnimation = &walkingAnimationDown;
-            movement.y += speed;
-            noKeyWasPressed = false;
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down"))
+            {
+                currentAnimation = &walkingAnimationDown;
+                movement.y += speed;
+                noKeyWasPressed = false;
+            }
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && playerPos.x >= 0)
         {
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left"))
+            {
             currentAnimation = &walkingAnimationLeft;
             movement.x -= speed;
             noKeyWasPressed = false;
+            }
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && playerPos.x <= backgroundX - 45)
         {
-            currentAnimation = &walkingAnimationRight;
-            movement.x += speed;
-            noKeyWasPressed = false;
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right"))
+            {
+                currentAnimation = &walkingAnimationRight;
+                movement.x += speed;
+                noKeyWasPressed = false;
+            }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
         {
@@ -216,14 +291,34 @@ void Game::run()
                 std::cout << wSize.x << std::endl;
                 std::cout << wSize.x << std::endl;
                 // if (vSize.x < 1000 && vSize.y < 1000 )
+                std::cout << "playerPos x: " << playerPos.x << std::endl;
+                std::cout << "playerPos y: " << playerPos.y << std::endl;
                 if (vSize.x < 1000 && vSize.y < 1000 )
                 {
                     view1.zoom(1.01f);
                 }
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::M) && elapsed1.asSeconds() > 0.2)
+        {
+                std::cout << elapsed1.asSeconds() << std::endl;
+                if (levelNumber == 1) levelNumber = 0;
+                else levelNumber = 1;
+                std::cout << "levelNumber: " << levelNumber << std::endl;
+                clock.restart();
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)) 
+        {
+            speed = 400.f;
+        }
+        else
+        {
+            speed = 80.f;
+        }
+
         sf::Vector2f vSize = view1.getSize();
-        // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 640 && vSize.y > 480)
-        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 160 && vSize.y > 120)
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 640 && vSize.y > 480)
+        // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 160 && vSize.y > 120)
         {
                     view1.zoom(0.99f);
         }
@@ -269,12 +364,27 @@ void Game::run()
         // Use render !!!
         window.clear();
         // window.draw(sBackground);
-        window.draw(map0);
-        window.draw(map1);
-        window.draw(map2);
-        window.draw(map3);
-        window.draw(animatedSprite);
-        window.draw(map4);
+        if(levelNumber == 0)
+        {
+          current3Map = level3Map;
+          window.draw(map0);
+          window.draw(map1);
+          window.draw(map2);
+          window.draw(map3);
+          window.draw(animatedSprite);
+          window.draw(map4);
+        }
+        else
+        {
+          current3Map = level1_3Map;
+          window.draw(map1_0);
+          window.draw(map1_1);
+          window.draw(map1_2);
+          window.draw(map1_3);
+          window.draw(animatedSprite);
+          window.draw(map1_4);
+        }
+
         window.display();
     }
 }

@@ -25,6 +25,7 @@ public:
         sf::Vector2f movement;
         sf::Time frameTime;
         void render();
+        int current3Map;
 
 private:
         void processEvents();
@@ -36,6 +37,13 @@ public:
         TileMap map2;
         TileMap map3;
         TileMap map4;
+
+        TileMap map1_0;
+        TileMap map1_1;
+        TileMap map1_2;
+        TileMap map1_3;
+        TileMap map1_4;
+
 private:
         sf::Texture tBackground;
         sf::Texture tAnimation;
@@ -53,6 +61,7 @@ private:
         std::string layer2;
         std::string layer3;
         int level[];
+        bool levelNumber;
 };
 
 #endif
