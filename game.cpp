@@ -108,10 +108,8 @@ void Game::run()
     std::vector<int> level1_3;
     std::vector<int> level1_4;
 
-    // std::string fileTmx = "Asset/testblock.tmx";
     std::string fileTmx = "Asset/auberge-outside-ok.tmx";
     std::string fileTmx2 = "Asset/auberge-new.tmx";
-    // std::string fileTmx = "Asset/testpourri.tmx";
 
     MapManager mapManager;
     mapManager.initLayerName(fileTmx);
@@ -160,7 +158,9 @@ void Game::run()
     std::copy(level1_4.begin(), level1_4.end(), level1_4Map);
 
     int * current3Map;
+    int * current2Map;
    current3Map = level3Map;
+   current2Map = level2Map;
 
 
     // Not 100! 20
@@ -246,18 +246,20 @@ void Game::run()
         sf::Vector2f movement(0.f, 0.f);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && playerPos.y >= 0)
         {
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up"))
+            currentAnimation = &walkingAnimationUp;
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up")
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "up")))
             {
-                currentAnimation = &walkingAnimationUp;
                 movement.y -= speed;
                 noKeyWasPressed = false;
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && playerPos.y <= backgroundY - 45)
         {
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down"))
+            currentAnimation = &walkingAnimationDown;
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down")
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "down")))
             {
-                currentAnimation = &walkingAnimationDown;
                 movement.y += speed;
                 noKeyWasPressed = false;
             }
@@ -265,9 +267,10 @@ void Game::run()
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && playerPos.x >= 0)
         {
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left"))
-            {
             currentAnimation = &walkingAnimationLeft;
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left")
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "left")))
+            {
             movement.x -= speed;
             noKeyWasPressed = false;
             }
@@ -275,9 +278,10 @@ void Game::run()
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && playerPos.x <= backgroundX - 45)
         {
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right"))
+            currentAnimation = &walkingAnimationRight;
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right")
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "right")))
             {
-                currentAnimation = &walkingAnimationRight;
                 movement.x += speed;
                 noKeyWasPressed = false;
             }
@@ -367,6 +371,7 @@ void Game::run()
         if(levelNumber == 0)
         {
           current3Map = level3Map;
+          current2Map = level2Map;
           window.draw(map0);
           window.draw(map1);
           window.draw(map2);
@@ -377,6 +382,7 @@ void Game::run()
         else
         {
           current3Map = level1_3Map;
+          current2Map = level1_2Map;
           window.draw(map1_0);
           window.draw(map1_1);
           window.draw(map1_2);

@@ -25,7 +25,6 @@ public:
         sf::Vector2f movement;
         sf::Time frameTime;
         void render();
-        int current3Map;
 
 private:
         void processEvents();
