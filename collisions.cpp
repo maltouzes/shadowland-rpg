@@ -6,7 +6,7 @@ CollisionsDetection::CollisionsDetection()
 {
 }
 
-bool CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction)
+int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction, bool catchObj)
 {
     int left_tile = playerPos.x / 64;
     int right_tile = (playerPos.x + 64) / 64 + 1;
@@ -28,40 +28,69 @@ bool CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (lev
                     && playerPos.y < (y * 64 + 32)
                     && playerPos.y > y * 64 - 32)
                 {
-                    return true;
+                    if (catchObj)
+                      {
+                          std::cout << "levelXMap: ";
+                          std::cout << levelXMap[x + y * width] << std::endl;
+                          return levelXMap[x + y * width];
+                      }
+
+                    else return true;
                 }
             }
             if (direction == "right")
             {
-                if (playerPos.x + 32 + 16 > (x * 64)
+                if (playerPos.x + 32 + 10 > (x * 64)
                     && playerPos.x + 32 + 16 < x * 64 + 64 + 16
                     && playerPos.y < (y * 64 + 32)
-                    && playerPos.y > y * 64 - 32)
+                    && playerPos.y > y * 64 - 32 - 12)
                 {
-                    return true;
+                    if (catchObj)
+                      {
+                          std::cout << "levelXMap: ";
+                          std::cout << levelXMap[x + y * width] << std::endl;
+                          return levelXMap[x + y * width];
+                      }
+
+                    else return true;
                 }
             }
             if (direction == "up")
             {
                 if (playerPos.y > (y * 64)
                     && playerPos.y < (y * 64 - 16) + 64
-                    && playerPos.x < (x * 64 + 32 + 16)
-                    && playerPos.x > x * 64 - 32)
+                    && playerPos.x < (x * 64 + 32 + 28)
+                    && playerPos.x > x * 64 - 32 - 8)
                 {
-                    return true;
+                    if (catchObj)
+                    {
+                        std::cout << "levelXMap: ";
+                        std::cout << levelXMap[x + y * width] << std::endl;
+                        return levelXMap[x + y * width];
+                    }
+
+                    else return true;
                 }
             }
             if (direction == "down")
             {
                 if (playerPos.y > (y * 64 - 32 - 20)
                     && playerPos.y < (y * 64)
-                    && playerPos.x < (x * 64 + 32)
-                    && playerPos.x > x * 64 -32)
+                    && playerPos.x < (x * 64 + 32 + 28)
+                    && playerPos.x > x * 64 -32 - 8)
                 {
-                    return true;
+                    if (catchObj)
+                      {
+                          std::cout << "levelXMap: ";
+                          std::cout << levelXMap[x + y * width] << std::endl;
+                          return levelXMap[x + y * width];
+                      }
+
+                    else return true;
                 }
             }
         }
       }
     }
+    return 0;
 }

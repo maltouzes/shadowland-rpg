@@ -25,6 +25,16 @@ Game::Game()
 // 4) change sf::Keyboard::V
 void Game::run()
 {
+     if (sf::Joystick::isConnected(0))
+     {
+             std::cout << "joystick number 0 is connected" << std::endl;
+             // check how many buttons joystick number 0 has
+             unsigned int buttonCount = sf::Joystick::getButtonCount(0);
+             std::cout << buttonCount << std::endl;
+             // // check if joystick number 0 has a Z axis
+             bool hasZ = sf::Joystick::hasAxis(0, sf::Joystick::Z);
+             std::cout << hasZ << std::endl;
+     }
     sf::Clock clock;
     levelNumber = false;
     // Two way to make view
@@ -247,8 +257,8 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && playerPos.y >= 0)
         {
             currentAnimation = &walkingAnimationUp;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up")
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "up")))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "up", 0)))
             {
                 movement.y -= speed;
                 noKeyWasPressed = false;
@@ -257,8 +267,8 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && playerPos.y <= backgroundY - 45)
         {
             currentAnimation = &walkingAnimationDown;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down")
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "down")))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "down", 0)))
             {
                 movement.y += speed;
                 noKeyWasPressed = false;
@@ -268,8 +278,8 @@ void Game::run()
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && playerPos.x >= 0)
         {
             currentAnimation = &walkingAnimationLeft;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left")
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "left")))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "left", 0)))
             {
             movement.x -= speed;
             noKeyWasPressed = false;
@@ -279,14 +289,43 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && playerPos.x <= backgroundX - 45)
         {
             currentAnimation = &walkingAnimationRight;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right")
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "right")))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "right", 0)))
             {
                 movement.x += speed;
                 noKeyWasPressed = false;
             }
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::V))
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0))
+        {
+            std::string dir = "up";
+            if (currentAnimation == &walkingAnimationUp) dir = "up";
+            if (currentAnimation == &walkingAnimationDown) dir = "down";
+            if (currentAnimation == &walkingAnimationLeft) dir = "left";
+            if (currentAnimation == &walkingAnimationRight) dir = "right";
+                int eraseObj = collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, dir, true);
+            if(eraseObj)
+            {
+                for(int x= 0; x < 400; x++)
+                {
+                    if(current2Map[x] == eraseObj)
+                    {
+                        current2Map[x] = 0;
+                        if(levelNumber == 0)
+                        {
+                            map2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level2Map, 20, 20);
+                        }
+                        if(levelNumber == 1)
+                        {
+                            map1_2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1_2Map, 20, 20);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::V) || sf::Joystick::isButtonPressed(0, 4))
         {
                 sf::Vector2f vSize = view1.getSize();
                 std::cout << vSize.x << std::endl;
@@ -311,6 +350,7 @@ void Game::run()
                 clock.restart();
         }
 
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)) 
         {
             speed = 400.f;
@@ -321,13 +361,27 @@ void Game::run()
         }
 
         sf::Vector2f vSize = view1.getSize();
-        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 640 && vSize.y > 480)
+        if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::V) || sf::Joystick::isButtonPressed(0, 4)) && vSize.x > 640 && vSize.y > 480)
         // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 160 && vSize.y > 120)
         {
                     view1.zoom(0.99f);
         }
 
+        float joystick_x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+        float joystick_y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+        if(joystick_x < 20 && joystick_x > -20) joystick_x = 0;
+        if(joystick_y < 20 && joystick_y > -20) joystick_y = 0;
+        joystick_x /= 2;
+        joystick_y /= 2;
+        if (joystick_x > 35) joystick_x = speed;
+        if (joystick_y > 35) joystick_y = speed;
+        if (joystick_x < -35) joystick_x = -speed;
+        if (joystick_y < -35) joystick_y = -speed;
+        // std::cout << "joystick_x: " << joystick_x << std::endl;
+        // std::cout << "joystick_y: " << joystick_y << std::endl;
         animatedSprite.play(*currentAnimation);
+        sf::Vector2f moveJoystick(joystick_x, joystick_y);
+        animatedSprite.move(moveJoystick * frameTime.asSeconds());
         animatedSprite.move(movement * frameTime.asSeconds());
         //view1.setCenter(animatedSprite.getPosition());
         //view1.setCenter(400, 300);
