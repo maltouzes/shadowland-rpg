@@ -4,11 +4,12 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include "game.hpp"
-#include "item.hpp"
+#include "items.h"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
 #include "map_manager.hpp"
 #include "collisions.hpp"
+#include "inventory.h"
 
 Game::Game()
 : window(sf::VideoMode(640, 480), "ShadowLand")
@@ -59,6 +60,10 @@ void Game::run()
     }
 
     // set up the animations for all four directions (set spritesheet and push frames)
+    Inventory pInventory;
+    Item item;
+    // item.readItem();
+
     Animation walkingAnimationDown;
     walkingAnimationDown.setSpriteSheet(texture);
     walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
@@ -169,9 +174,16 @@ void Game::run()
 
     int * current3Map;
     int * current2Map;
+    int * current4Map;
    current3Map = level3Map;
    current2Map = level2Map;
+   current4Map = level4Map;
+   int levelHeight{20};
+   int levelWidth{20};
 
+    int mapScale{4};
+    int mapWidth{20};
+    int mapHeight{20};
 
     // Not 100! 20
     if(!map0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level0Map, 20, 20))
@@ -216,17 +228,17 @@ void Game::run()
         std::cout << "Can't add objects" << std::endl;
     }
 
-    map0.setScale(4.f, 4.f);
-    map1.setScale(4.f, 4.f);
-    map2.setScale(4.f, 4.f);
-    map3.setScale(4.f, 4.f);
-    map4.setScale(4.f, 4.f);
+    map0.setScale(mapScale, mapScale);
+    map1.setScale(mapScale, mapScale);
+    map2.setScale(mapScale, mapScale);
+    map3.setScale(mapScale, mapScale);
+    map4.setScale(mapScale, mapScale);
 
-    map1_0.setScale(4.f, 4.f);
-    map1_1.setScale(4.f, 4.f);
-    map1_2.setScale(4.f, 4.f);
-    map1_3.setScale(4.f, 4.f);
-    map1_4.setScale(4.f, 4.f);
+    map1_0.setScale(mapScale, mapScale);
+    map1_1.setScale(mapScale, mapScale);
+    map1_2.setScale(mapScale, mapScale);
+    map1_3.setScale(mapScale, mapScale);
+    map1_4.setScale(mapScale, mapScale);
 
     sBackground.setTexture(tBackground);
     //sBackground.setScale(0.5, 0.5);
@@ -263,9 +275,75 @@ void Game::run()
                 movement.y -= speed;
                 noKeyWasPressed = false;
             }
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "up", true);
+            if(hideObj)
+            {
+                for(int x= 0; x < 1600; x++)
+                {
+                    if(current4Map[x] == hideObj) // && map4.m_vertices[x*4].color.a > 168)
+                    {
+                        int alpha1 = map4.m_vertices[x*mapScale].color.a - 8;
+                        if (alpha1 < 168) alpha1 = 168;
+                        int alpha2 = map4.m_vertices[x*mapScale+1].color.a - 8;
+                        if (alpha2 < 168) alpha2 = 168;
+                        int alpha3 = map4.m_vertices[x*mapScale+2].color.a - 8;
+                        if (alpha3 < 168) alpha3 = 168;
+                        int alpha4 = map4.m_vertices[x*mapScale+3].color.a - 8;
+                        if (alpha4 < 168) alpha4 = 168;
+
+                        map4.m_vertices[(x*mapScale - (mapWidth * mapScale))].color = sf::Color(255, 255, 255, alpha1);
+                        map4.m_vertices[(x)*mapScale + 1 - (mapWidth * mapScale)].color = sf::Color(255, 255, 255, alpha1);
+                        map4.m_vertices[(x)*mapScale + 2 - (mapWidth * mapScale)].color = sf::Color(255, 255, 255, alpha2);
+                        map4.m_vertices[(x)*mapScale + 3 - (mapWidth * mapScale)].color = sf::Color(255, 255, 255, alpha3);
+
+                        for (int i{-1}; i < 2; i ++)
+                        {
+                            map4.m_vertices[(x+i)*mapScale].color = sf::Color(255, 255, 255, alpha1);
+                            map4.m_vertices[(x+i)*mapScale + 1].color = sf::Color(255, 255, 255, alpha2);
+                            map4.m_vertices[(x+i)*mapScale + 2].color = sf::Color(255, 255, 255, alpha3);
+                            map4.m_vertices[(x+i)*mapScale + 3].color = sf::Color(255, 255, 255, alpha4);
+                        }
+
+                    }
+                }
+            }
+
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && playerPos.y <= backgroundY - 45)
         {
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "down", true);
+            if(hideObj)
+            {
+                for(int x= 0; x < 1600; x++)
+                {
+                    if(current4Map[x] == hideObj && map4.m_vertices[x*4].color.a > 168)
+                    {
+                        int alpha1 = map4.m_vertices[x*mapScale].color.a - 8;
+                        if (alpha1 < 168) alpha1 = 168;
+                        int alpha2 = map4.m_vertices[x*mapScale+1].color.a - 8;
+                        if (alpha2 < 168) alpha2 = 168;
+                        int alpha3 = map4.m_vertices[x*mapScale+2].color.a - 8;
+                        if (alpha3 < 168) alpha3 = 168;
+                        int alpha4 = map4.m_vertices[x*mapScale+3].color.a - 8;
+                        if (alpha4 < 168) alpha4 = 168;
+
+                        map4.m_vertices[(x*mapScale + (mapWidth * mapScale))].color = sf::Color(255, 255, 255, alpha1);
+                        map4.m_vertices[(x)*mapScale + 1 + (mapWidth * mapScale)].color = sf::Color(255, 255, 255, alpha1);
+                        map4.m_vertices[(x)*mapScale + 2 + (mapWidth * mapScale)].color = sf::Color(255, 255, 255, alpha2);
+                        map4.m_vertices[(x)*mapScale + 3 + (mapWidth * mapScale)].color = sf::Color(255, 255, 255, alpha3);
+
+                        for (int i{-1}; i < 2; i++)
+                        {
+
+                            map4.m_vertices[(x+i)*mapScale].color = sf::Color(255, 255, 255, alpha1);
+                            map4.m_vertices[(x+i)*mapScale + 1].color = sf::Color(255, 255, 255, alpha2);
+                            map4.m_vertices[(x+i)*mapScale + 2].color = sf::Color(255, 255, 255, alpha3);
+                            map4.m_vertices[(x+i)*mapScale + 3].color = sf::Color(255, 255, 255, alpha4);
+                        }
+                    }
+                }
+            }
+
             currentAnimation = &walkingAnimationDown;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "down", 0)))
@@ -281,8 +359,32 @@ void Game::run()
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "left", 0)))
             {
-            movement.x -= speed;
-            noKeyWasPressed = false;
+                movement.x -= speed;
+                noKeyWasPressed = false;
+            }
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "left", true);
+            if(hideObj)
+            {
+                for(int x= 0; x < 1600; x++)
+                {
+                    if(current4Map[x] == hideObj && map4.m_vertices[x*4].color.a > 168)
+                    {
+                        int alpha = map4.m_vertices[x*mapScale].color.a - 8;
+                        if (alpha < 168) alpha = 168;
+                        map4.m_vertices[x*mapScale - 1].color = sf::Color(255, 255, 255, alpha);
+                        map4.m_vertices[x*mapScale - 2].color = sf::Color(255, 255, 255, alpha);
+                        map4.m_vertices[x*mapScale - 3].color = sf::Color(255, 255, 255, alpha);
+                        map4.m_vertices[x*mapScale - 4].color = sf::Color(255, 255, 255, alpha);
+
+                        for (int i{-mapWidth * mapScale}; i < mapWidth * mapScale * 2; i+= mapWidth * mapScale)
+                        {
+                            map4.m_vertices[x*mapScale +i].color = sf::Color(255, 255, 255, alpha);
+                            map4.m_vertices[x*mapScale + i  + 1].color = sf::Color(255, 255, 255, alpha);
+                            map4.m_vertices[x*mapScale + i + 2].color = sf::Color(255, 255, 255, alpha);
+                            map4.m_vertices[x*mapScale + i + 3].color = sf::Color(255, 255, 255, alpha);
+                        }
+                    }
+                }
             }
         }
 
@@ -295,10 +397,41 @@ void Game::run()
                 movement.x += speed;
                 noKeyWasPressed = false;
             }
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "right", true);
+            if(hideObj)
+            {
+                for(int x{0}; x < 1600; x++)
+                {
+                    if(current4Map[x] == hideObj) // && map4.m_vertices[x*4].color.a > 168)
+                    {
+                        int alpha = map4.m_vertices[x*mapScale].color.a - 8;
+                        if (alpha < 168) alpha = 168;
+                        map4.m_vertices[x*mapScale + 4].color = sf::Color(255, 255, 255, alpha);
+                        map4.m_vertices[x*mapScale + 5].color = sf::Color(255, 255, 255, alpha);
+                        map4.m_vertices[x*mapScale + 6].color = sf::Color(255, 255, 255, alpha);
+                        map4.m_vertices[x*mapScale + 7].color = sf::Color(255, 255, 255, alpha);
+                        for (int i{-mapWidth * mapScale}; i < mapWidth * mapScale * 2; i+= mapWidth * mapScale)
+                        {
+                            map4.m_vertices[x*mapScale +i].color = sf::Color(255, 255, 255, alpha);
+                            map4.m_vertices[x*mapScale + i + 1].color = sf::Color(255, 255, 255, alpha);
+                            map4.m_vertices[x*mapScale + i + 2].color = sf::Color(255, 255, 255, alpha);
+                            map4.m_vertices[x*mapScale + i + 3].color = sf::Color(255, 255, 255, alpha);
+                        }
+                    }
+                }
+            }
+
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0))
         {
+            // pInventory.printInventory();
+            for(auto elem : pInventory.m_inventory)
+            {
+                std::cout << elem.first << " " << elem.second << std::endl;;
+            }
+            // pInventory.printInventory();
+
             std::string dir = "up";
             if (currentAnimation == &walkingAnimationUp) dir = "up";
             if (currentAnimation == &walkingAnimationDown) dir = "down";
@@ -307,10 +440,13 @@ void Game::run()
                 int eraseObj = collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, dir, true);
             if(eraseObj)
             {
-                for(int x= 0; x < 400; x++)
+                for(int x= 0; x < 1600; x++)
                 {
                     if(current2Map[x] == eraseObj)
                     {
+                        // std::cout << current2Map[x] << std::endl;
+                        if (current2Map[x] == 527) pInventory.m_inventory["bag"] += 1;
+                        else pInventory.m_inventory["barrel"] += 1;
                         current2Map[x] = 0;
                         if(levelNumber == 0)
                         {
@@ -323,6 +459,26 @@ void Game::run()
                     }
                 }
             }
+        }
+
+
+
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
+        {
+            for (int i{0}; i < 1600; i++)
+            {
+            map4.m_vertices[i].color = sf::Color(255, 255, 255, 168);
+            }
+
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+        {
+            for (int i{0}; i < 1600; i++)
+            {
+            map4.m_vertices[i].color = sf::Color(255, 255, 255, 255);
+            }
+
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::V) || sf::Joystick::isButtonPressed(0, 4))
@@ -480,6 +636,7 @@ bool Game::isSpriteClicked (sf::Sprite& spr)
            && sf::Mouse::getPosition(window).y > spr.getGlobalBounds().top 
            && sf::Mouse::getPosition(window).y < (spr.getGlobalBounds().top + spr.getGlobalBounds().height))
     {
-            item.call();
+            std::cout << "click";
+            // item.call();
     }
 }

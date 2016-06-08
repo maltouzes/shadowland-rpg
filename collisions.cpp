@@ -30,8 +30,8 @@ int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (leve
                 {
                     if (catchObj)
                       {
-                          std::cout << "levelXMap: ";
-                          std::cout << levelXMap[x + y * width] << std::endl;
+                          // std::cout << "levelXMap: ";
+                          // std::cout << levelXMap[x + y * width] << std::endl;
                           return levelXMap[x + y * width];
                       }
 
@@ -47,8 +47,8 @@ int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (leve
                 {
                     if (catchObj)
                       {
-                          std::cout << "levelXMap: ";
-                          std::cout << levelXMap[x + y * width] << std::endl;
+                          // std::cout << "levelXMap: ";
+                          // std::cout << levelXMap[x + y * width] << std::endl;
                           return levelXMap[x + y * width];
                       }
 
@@ -64,8 +64,8 @@ int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (leve
                 {
                     if (catchObj)
                     {
-                        std::cout << "levelXMap: ";
-                        std::cout << levelXMap[x + y * width] << std::endl;
+                        // std::cout << "levelXMap: ";
+                        // std::cout << levelXMap[x + y * width] << std::endl;
                         return levelXMap[x + y * width];
                     }
 
@@ -81,8 +81,8 @@ int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (leve
                 {
                     if (catchObj)
                       {
-                          std::cout << "levelXMap: ";
-                          std::cout << levelXMap[x + y * width] << std::endl;
+                          // std::cout << "levelXMap: ";
+                          // std::cout << levelXMap[x + y * width] << std::endl;
                           return levelXMap[x + y * width];
                       }
 
