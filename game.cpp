@@ -313,7 +313,7 @@ void Game::run()
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) && playerPos.y >= 0)
         {
 
-            if (!showInventory)  
+            if (!showInventory)
             {
             currentAnimation = &walkingAnimationUp;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up", 0)
@@ -359,7 +359,7 @@ void Game::run()
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) && playerPos.y <= backgroundY - 45)
         {
 
-            if (!showInventory)  
+            if (!showInventory)
             {
             int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "down", true);
             if(hideObj)
@@ -406,7 +406,7 @@ void Game::run()
 
         if((sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < - 20) && playerPos.x >= 0)
         {
-            if (!showInventory)  
+            if (!showInventory)
             {
             currentAnimation = &walkingAnimationLeft;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left", 0)
