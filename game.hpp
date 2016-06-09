@@ -43,10 +43,14 @@ public:
         TileMap map1_3;
         TileMap map1_4;
 
+        TileMap inventoryMap;
+
 private:
         sf::Texture tBackground;
         sf::Texture tAnimation;
+        sf::Texture tInventory;
         sf::Sprite sBackground;
+        sf::Sprite sInventory;
         sf::Image icon;
         sf::Vector2f vSize;
 
@@ -61,6 +65,8 @@ private:
         std::string layer3;
         int level[];
         bool levelNumber;
+        bool showInventory;
+        sf::FloatRect posInventory;
 };
 
 #endif

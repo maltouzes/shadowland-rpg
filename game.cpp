@@ -17,6 +17,7 @@ Game::Game()
     sf::Image icon;
     if(!icon.loadFromFile("Asset/icon.png"));
     window.setIcon(512, 512, icon.getPixelsPtr());
+    showInventory = 0;
 
 }
 // To change the map size:
@@ -128,6 +129,14 @@ void Game::run()
         std::cout << "Failed to load background" << std::endl;
     }
 
+    if(!tInventory.loadFromFile("Asset/inventory.png"))
+    {
+
+        std::cout << "Failed to load inventory" << std::endl;
+    }
+
+    sInventory.setTexture(tInventory);
+    sf::FloatRect posInventory= sInventory.getGlobalBounds(); // inventory.width
 
     // map and map_manager
     std::vector<int> level0;
@@ -191,18 +200,25 @@ void Game::run()
     std::copy(level1_3.begin(), level1_3.end(), level1_3Map);
     std::copy(level1_4.begin(), level1_4.end(), level1_4Map);
 
+    int inventoryArray[20] = {};
+
     int * current3Map;
     int * current2Map;
     int * current4Map;
-   current3Map = level3Map;
-   current2Map = level2Map;
-   current4Map = level4Map;
-   int levelHeight{20};
-   int levelWidth{20};
+    current3Map = level3Map;
+    current2Map = level2Map;
+    current4Map = level4Map;
+    int levelHeight{20};
+    int levelWidth{20};
 
     int mapScale{4};
     int mapWidth{20};
     int mapHeight{20};
+
+    if(!inventoryMap.load("Asset/tile2map16.png", sf::Vector2u(16, 16), inventoryArray, 4, 5)) // 10, 8
+    {
+        std::cout << "Can't add inventory" << std::endl;
+    }
 
     // Not 100! 20
     if(!map0.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level0Map, 20, 20))
@@ -258,6 +274,8 @@ void Game::run()
     map2.setScale(mapScale, mapScale);
     map3.setScale(mapScale, mapScale);
     map4.setScale(mapScale, mapScale);
+
+    inventoryMap.setScale(mapScale-0.5, mapScale-0.5);
 
     map1_0.setScale(mapScale, mapScale);
     map1_1.setScale(mapScale, mapScale);
@@ -448,10 +466,9 @@ void Game::run()
 
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0))
+        // Need to check if m_inventory is not full before add a new item
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) )
         {
-            // pInventory.printInventory();
-
             std::string dir{"dir"};
             if (currentAnimation == &walkingAnimationUp) dir = "up";
             if (currentAnimation == &walkingAnimationDown) dir = "down";
@@ -467,7 +484,23 @@ void Game::run()
                                pInventory.m_inventory.erase ("none");
                        }
 
-                        //if (current2Map[x] == items.translateObj(527)) pInventory.m_inventory["bag"] += 1;
+                        bool found = 0;
+
+                        if (items.translateObj(current2Map[x]).compare("none") != 0)
+                        {
+                        for (int newX{0}; newX < 20; newX++)
+                        {
+                            std::cout << "yep" << std::endl;
+                            if (inventoryArray[newX] == 0) 
+                            {
+                                    found = 1;
+                                    inventoryArray[newX] = eraseObj;
+                            }
+                            if (found == 1) break;
+                        }
+                        // inventoryArray[x] = eraseObj;
+                        inventoryMap.load("Asset/tile2map16.png", sf::Vector2u(16, 16), inventoryArray, 4, 5);
+                        }
                         current2Map[x] = 0;
                         if(levelNumber == 0)
                         {
@@ -484,9 +517,6 @@ void Game::run()
                 std::cout << elem.first << " " << elem.second << std::endl;;
             }
         }
-
-
-
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
         {
@@ -530,6 +560,13 @@ void Game::run()
                 clock.restart();
         }
 
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::I) || (sf::Joystick::isButtonPressed(0, 3))) && elapsed1.asSeconds() > 0.2)
+        {
+            showInventory = !showInventory;
+            sInventory.setPosition(sf::Vector2f(sf::Vector2i(playerPos.x - posInventory.width/2, playerPos.y - posInventory.height/2)));
+            inventoryMap.setPosition(sf::Vector2f(sf::Vector2i(playerPos.x + 15 - posInventory.width/2, playerPos.y + 55 - posInventory.height/2)));
+            clock.restart();
+        }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)) 
         {
@@ -627,6 +664,11 @@ void Game::run()
           window.draw(map1_4);
         }
 
+        if (showInventory == 1)
+        {
+            window.draw(sInventory);
+            window.draw(inventoryMap);
+        }
         window.display();
     }
 }
