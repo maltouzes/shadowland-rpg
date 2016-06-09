@@ -309,8 +309,12 @@ void Game::run()
         sf::Vector2f playerPos = animatedSprite.getPosition();
         // if a key was pressed set the correct animation and move correctly
         sf::Vector2f movement(0.f, 0.f);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && playerPos.y >= 0)
+
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) && playerPos.y >= 0)
         {
+
+            if (!showInventory)  
+            {
             currentAnimation = &walkingAnimationUp;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "up", 0)))
@@ -350,10 +354,13 @@ void Game::run()
                     }
                 }
             }
-
+            }
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && playerPos.y <= backgroundY - 45)
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) > 20) && playerPos.y <= backgroundY - 45)
         {
+
+            if (!showInventory)  
+            {
             int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "down", true);
             if(hideObj)
             {
@@ -395,9 +402,12 @@ void Game::run()
                 noKeyWasPressed = false;
             }
         }
+        }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && playerPos.x >= 0)
+        if((sf::Keyboard::isKeyPressed(sf::Keyboard::Q) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) < - 20) && playerPos.x >= 0)
         {
+            if (!showInventory)  
+            {
             currentAnimation = &walkingAnimationLeft;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "left", 0)))
@@ -430,9 +440,12 @@ void Game::run()
                 }
             }
         }
+        }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && playerPos.x <= backgroundX - 45)
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Joystick::getAxisPosition(0, sf::Joystick::X) > 20) && playerPos.x <= backgroundX - 45)
         {
+            if (!showInventory)
+            {
             currentAnimation = &walkingAnimationRight;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "right", 0)))
@@ -464,6 +477,7 @@ void Game::run()
                 }
             }
 
+        }
         }
 
         // Need to check if m_inventory is not full before add a new item
@@ -587,7 +601,7 @@ void Game::run()
                     view1.zoom(0.99f);
         }
 
-        float joystick_x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+        /*float joystick_x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
         float joystick_y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
         if(joystick_x < 20 && joystick_x > -20) joystick_x = 0;
         if(joystick_y < 20 && joystick_y > -20) joystick_y = 0;
@@ -596,12 +610,12 @@ void Game::run()
         if (joystick_x > 35) joystick_x = speed;
         if (joystick_y > 35) joystick_y = speed;
         if (joystick_x < -35) joystick_x = -speed;
-        if (joystick_y < -35) joystick_y = -speed;
+        if (joystick_y < -35) joystick_y = -speed;*/
         // std::cout << "joystick_x: " << joystick_x << std::endl;
         // std::cout << "joystick_y: " << joystick_y << std::endl;
         animatedSprite.play(*currentAnimation);
-        sf::Vector2f moveJoystick(joystick_x, joystick_y);
-        animatedSprite.move(moveJoystick * frameTime.asSeconds());
+        // sf::Vector2f moveJoystick(joystick_x, joystick_y);
+        // animatedSprite.move(moveJoystick * frameTime.asSeconds());
         animatedSprite.move(movement * frameTime.asSeconds());
         //view1.setCenter(animatedSprite.getPosition());
         //view1.setCenter(400, 300);
