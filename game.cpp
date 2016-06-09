@@ -26,6 +26,23 @@ Game::Game()
 // 4) change sf::Keyboard::V
 void Game::run()
 {
+     if (!sf::Shader::isAvailable())
+     {
+         std::cout << "can't use shaders" << std::endl;
+     }
+
+     sf::Shader shader;
+     sf::Shader shader2;
+     if (!shader.loadFromFile("shaders/fragment.frag", sf::Shader::Fragment))
+     {
+         std::cout << "load shader error" << std::endl;
+     }
+
+     if (!shader2.loadFromFile("shaders/vertext.vert", sf::Shader::Vertex))
+     {
+         std::cout << "load shader2 error" << std::endl;
+     }
+
      if (sf::Joystick::isConnected(0))
      {
              std::cout << "joystick number 0 is connected" << std::endl;
@@ -62,6 +79,7 @@ void Game::run()
     // set up the animations for all four directions (set spritesheet and push frames)
     Inventory pInventory;
     Item item;
+    Items items;
     // item.readItem();
 
     Animation walkingAnimationDown;
@@ -103,7 +121,8 @@ void Game::run()
     sf::Clock frameClock;
     float speed = 60.f; // 80.f
     bool noKeyWasPressed = true;
-    if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
+    // if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
+    if(!tBackground.loadFromFile("Asset/background-dark.png"))
     // if(!tBackground.loadFromFile("Asset/testpourri.png"))
     {
         std::cout << "Failed to load background" << std::endl;
@@ -227,6 +246,12 @@ void Game::run()
     {
         std::cout << "Can't add objects" << std::endl;
     }
+
+    /* map0.m_tileset.setSmooth(0);
+     map1.m_tileset.setSmooth(0);
+    map2.m_tileset.setSmooth(0);
+    map3.m_tileset.setSmooth(0);
+    map4.m_tileset.setSmooth(0);*/
 
     map0.setScale(mapScale, mapScale);
     map1.setScale(mapScale, mapScale);
@@ -426,13 +451,8 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0))
         {
             // pInventory.printInventory();
-            for(auto elem : pInventory.m_inventory)
-            {
-                std::cout << elem.first << " " << elem.second << std::endl;;
-            }
-            // pInventory.printInventory();
 
-            std::string dir = "up";
+            std::string dir{"dir"};
             if (currentAnimation == &walkingAnimationUp) dir = "up";
             if (currentAnimation == &walkingAnimationDown) dir = "down";
             if (currentAnimation == &walkingAnimationLeft) dir = "left";
@@ -440,13 +460,14 @@ void Game::run()
                 int eraseObj = collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, dir, true);
             if(eraseObj)
             {
-                for(int x= 0; x < 1600; x++)
-                {
-                    if(current2Map[x] == eraseObj)
-                    {
-                        // std::cout << current2Map[x] << std::endl;
-                        if (current2Map[x] == 527) pInventory.m_inventory["bag"] += 1;
-                        else pInventory.m_inventory["barrel"] += 1;
+                int x = collisions.playerTakeObj(playerPos, current2Map, 20, 20, dir);
+                        pInventory.m_inventory[items.translateObj(current2Map[x])] += 1;
+                        if (pInventory.m_inventory.find("none") != pInventory.m_inventory.end() )
+                       {
+                               pInventory.m_inventory.erase ("none");
+                       }
+
+                        //if (current2Map[x] == items.translateObj(527)) pInventory.m_inventory["bag"] += 1;
                         current2Map[x] = 0;
                         if(levelNumber == 0)
                         {
@@ -456,8 +477,11 @@ void Game::run()
                         {
                             map1_2.load("Asset/tile2map16.png", sf::Vector2u(16, 16), level1_2Map, 20, 20);
                         }
-                    }
-                }
+            }
+
+            for(auto elem : pInventory.m_inventory)
+            {
+                std::cout << elem.first << " " << elem.second << std::endl;;
             }
         }
 
@@ -586,8 +610,10 @@ void Game::run()
           window.draw(map1);
           window.draw(map2);
           window.draw(map3);
+          // window.draw(animatedSprite);
           window.draw(animatedSprite);
           window.draw(map4);
+          // window.draw(sBackground);
         }
         else
         {

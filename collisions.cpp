@@ -94,3 +94,24 @@ int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (leve
     }
     return 0;
 }
+
+int CollisionsDetection::playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction)
+{
+    int left_tile = playerPos.x / 64;
+    int right_tile = (playerPos.x + 64) / 64 + 1;
+    int top_tile = playerPos.y / 64;
+    int bottom_tile = (playerPos.y + 64) / 64 + 1;
+    if (right_tile == 0) right_tile = 1;
+    if (bottom_tile == 0) bottom_tile = 1;
+
+    for (int x = left_tile; x < right_tile+1; x++)
+    {
+      for (int y = top_tile; y < bottom_tile+1; y++)
+      {
+        if (levelXMap[x + y * width]) return x + y * width;
+      }
+    }
+
+
+    return 0;
+}

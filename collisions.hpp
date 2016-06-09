@@ -11,6 +11,8 @@ public:
 
     int collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction, bool catchObj);
 
+    int playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction);
+
 private:
     // sf::Vector2f playerPos;
     // int &levelXMap[];
