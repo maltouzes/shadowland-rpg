@@ -467,7 +467,7 @@ void Game::run()
         }
 
         // Need to check if m_inventory is not full before add a new item
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) )
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) && pInventory.numberObject < pInventory.maxObject)
         {
             std::string dir{"dir"};
             if (currentAnimation == &walkingAnimationUp) dir = "up";
@@ -479,9 +479,12 @@ void Game::run()
             {
                 int x = collisions.playerTakeObj(playerPos, current2Map, 20, 20, dir);
                         pInventory.m_inventory[items.translateObj(current2Map[x])] += 1;
+                        pInventory.numberObject +=1;
+                        std::cout << "numberObj " << pInventory.numberObject << std::endl;
                         if (pInventory.m_inventory.find("none") != pInventory.m_inventory.end() )
                        {
                                pInventory.m_inventory.erase ("none");
+                               pInventory.numberObject -=1;
                        }
 
                         bool found = 0;
