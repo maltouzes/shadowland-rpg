@@ -12,7 +12,8 @@
 #include "inventory.h"
 
 Game::Game()
-: window(sf::VideoMode(640, 480), "ShadowLand")
+// : window(sf::VideoMode(640, 480), "ShadowLand")
+: window(sf::VideoMode(1280, 960), "ShadowLand")
 {
     sf::Image icon;
     if(!icon.loadFromFile("Asset/icon.png"));
@@ -580,8 +581,17 @@ void Game::run()
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::I) || (sf::Joystick::isButtonPressed(0, 3))) && elapsed1.asSeconds() > 0.2)
         {
             showInventory = !showInventory;
-            sInventory.setPosition(sf::Vector2f(sf::Vector2i(playerPos.x - posInventory.width/2, playerPos.y - posInventory.height/2)));
-            inventoryMap.setPosition(sf::Vector2f(sf::Vector2i(playerPos.x + 15 - posInventory.width/2, playerPos.y + 55 - posInventory.height/2)));
+            int posX = playerPos.x - posInventory.width/2;
+            int posY = playerPos.y - posInventory.height/2;
+
+            if (posX < 0) posX = 0;
+            if (posY < 0) posY = 0;
+            if (posX > posBackground.width - posInventory.width) posX = posBackground.width - posInventory.width;
+            if (posY > posBackground.height - posInventory.height) posY = posBackground.height - posInventory.height;
+
+            sInventory.setPosition(sf::Vector2f(sf::Vector2i(posX, posY)));
+            inventoryMap.setPosition(sf::Vector2f(sf::Vector2i(posX + 25, posY + 65)));
+
             clock.restart();
         }
 
@@ -601,21 +611,7 @@ void Game::run()
                     view1.zoom(0.99f);
         }
 
-        /*float joystick_x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-        float joystick_y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-        if(joystick_x < 20 && joystick_x > -20) joystick_x = 0;
-        if(joystick_y < 20 && joystick_y > -20) joystick_y = 0;
-        joystick_x /= 2;
-        joystick_y /= 2;
-        if (joystick_x > 35) joystick_x = speed;
-        if (joystick_y > 35) joystick_y = speed;
-        if (joystick_x < -35) joystick_x = -speed;
-        if (joystick_y < -35) joystick_y = -speed;*/
-        // std::cout << "joystick_x: " << joystick_x << std::endl;
-        // std::cout << "joystick_y: " << joystick_y << std::endl;
         animatedSprite.play(*currentAnimation);
-        // sf::Vector2f moveJoystick(joystick_x, joystick_y);
-        // animatedSprite.move(moveJoystick * frameTime.asSeconds());
         animatedSprite.move(movement * frameTime.asSeconds());
         //view1.setCenter(animatedSprite.getPosition());
         //view1.setCenter(400, 300);
