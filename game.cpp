@@ -10,6 +10,8 @@
 #include "map_manager.hpp"
 #include "collisions.hpp"
 #include "inventory.h"
+#include "entity.h"
+#include "monster.h"
 
 Game::Game()
 // : window(sf::VideoMode(640, 480), "ShadowLand")
@@ -83,6 +85,10 @@ void Game::run()
     Item item;
     Items items;
     // item.readItem();
+
+    Monster monster1("monster1", "Asset/player.png");
+    monster1.printId();
+
 
     Animation walkingAnimationDown;
     walkingAnimationDown.setSpriteSheet(texture);
@@ -613,6 +619,8 @@ void Game::run()
 
         animatedSprite.play(*currentAnimation);
         animatedSprite.move(movement * frameTime.asSeconds());
+
+        monster1.animatedSprite.play(*monster1.currentAnimation);
         //view1.setCenter(animatedSprite.getPosition());
         //view1.setCenter(400, 300);
 
@@ -647,6 +655,7 @@ void Game::run()
 
         // update AnimatedSprite
         animatedSprite.update(frameTime);
+        monster1.animatedSprite.update(frameTime);
 
         // draw
         // Use render !!!
@@ -661,6 +670,7 @@ void Game::run()
           window.draw(map2);
           window.draw(map3);
           // window.draw(animatedSprite);
+          window.draw(monster1.animatedSprite);
           window.draw(animatedSprite);
           window.draw(map4);
           // window.draw(sBackground);
