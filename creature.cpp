@@ -1,7 +1,7 @@
-#include "monster.h"
+#include "creature.h"
 #include "Animation.hpp"
 
-Monster::Monster(std::string mId, std::string textureLFF) : Entity(mId)
+Creature::Creature(std::string mId, std::string textureLFF, double scale) : Entity(mId)
 {
     if (!texture.loadFromFile(textureLFF))
     {
@@ -37,6 +37,6 @@ Monster::Monster(std::string mId, std::string textureLFF) : Entity(mId)
     animatedSprite.setFrameTime(sf::seconds(0.2));
     animatedSprite.play();
     animatedSprite.setLooped(true);
-    animatedSprite.setScale(1.4, 1.4);
+    animatedSprite.setScale(scale, scale);
     animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(1280, 1400)/ 2));
 }

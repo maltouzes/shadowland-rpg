@@ -1,5 +1,5 @@
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CREATURE_H
+#define CREATURE_H
 
 #include "entity.h"
 #include "Animation.hpp"
@@ -7,10 +7,10 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Time.hpp>
 
-class Monster : public Entity
+class Creature : public Entity
 {
 public:
-    Monster(std::string mId, std::string textureLFF);
+    Creature(std::string mId, std::string textureLFF, double scale = 1);
 
 public:
    Animation walkingAnimationDown;

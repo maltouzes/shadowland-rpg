@@ -11,7 +11,7 @@
 #include "collisions.hpp"
 #include "inventory.h"
 #include "entity.h"
-#include "monster.h"
+#include "creature.h"
 
 Game::Game()
 // : window(sf::VideoMode(640, 480), "ShadowLand")
@@ -86,45 +86,10 @@ void Game::run()
     Items items;
     // item.readItem();
 
-    Monster monster1("monster1", "Asset/player.png");
+    Creature monster1("monster1", "Asset/player.png", 1.4);
     monster1.printId();
 
-
-    Animation walkingAnimationDown;
-    walkingAnimationDown.setSpriteSheet(texture);
-    walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-    walkingAnimationDown.addFrame(sf::IntRect(64, 0, 32, 32));
-    walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-    walkingAnimationDown.addFrame(sf::IntRect( 0, 0, 32, 32));
-
-    Animation walkingAnimationLeft;
-    walkingAnimationLeft.setSpriteSheet(texture);
-    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect(64, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect( 0, 32, 32, 32));
-
-    Animation walkingAnimationRight;
-    walkingAnimationRight.setSpriteSheet(texture);
-    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect(64, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect( 0, 64, 32, 32));
-
-    Animation walkingAnimationUp;
-    walkingAnimationUp.setSpriteSheet(texture);
-    walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-    walkingAnimationUp.addFrame(sf::IntRect(64, 96, 32, 32));
-    walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-    walkingAnimationUp.addFrame(sf::IntRect( 0, 96, 32, 32));
-
-    Animation* currentAnimation = &walkingAnimationDown;
-
-    // set up AnimatedSprite
-    AnimatedSprite animatedSprite(sf::seconds(0.2), true, false);
-    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(1280, 1400)/ 2));
-    animatedSprite.setScale(1.4, 1.4);
-    // animatedSprite.setScale(0.4, 0.4);
+    Creature player1("player1", "Asset/player.png", 1.4);
 
     sf::Clock frameClock;
     float speed = 60.f; // 80.f
@@ -313,7 +278,7 @@ void Game::run()
 
         sf::Time frameTime = frameClock.restart();
 
-        sf::Vector2f playerPos = animatedSprite.getPosition();
+        sf::Vector2f playerPos = player1.animatedSprite.getPosition();
         // if a key was pressed set the correct animation and move correctly
         sf::Vector2f movement(0.f, 0.f);
 
@@ -322,7 +287,7 @@ void Game::run()
 
             if (!showInventory)
             {
-            currentAnimation = &walkingAnimationUp;
+            player1.currentAnimation = &player1.walkingAnimationUp;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "up", 0)))
             {
@@ -401,7 +366,8 @@ void Game::run()
                 }
             }
 
-            currentAnimation = &walkingAnimationDown;
+            //currentAnimation = &walkingAnimationDown;
+            player1.currentAnimation = &player1.walkingAnimationDown;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "down", 0)))
             {
@@ -415,7 +381,7 @@ void Game::run()
         {
             if (!showInventory)
             {
-            currentAnimation = &walkingAnimationLeft;
+            player1.currentAnimation = &player1.walkingAnimationLeft;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "left", 0)))
             {
@@ -453,7 +419,7 @@ void Game::run()
         {
             if (!showInventory)
             {
-            currentAnimation = &walkingAnimationRight;
+            player1.currentAnimation = &player1.walkingAnimationRight;
             if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right", 0)
                && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "right", 0)))
             {
@@ -491,10 +457,11 @@ void Game::run()
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) && pInventory.numberObject < pInventory.maxObject)
         {
             std::string dir{"dir"};
-            if (currentAnimation == &walkingAnimationUp) dir = "up";
-            if (currentAnimation == &walkingAnimationDown) dir = "down";
-            if (currentAnimation == &walkingAnimationLeft) dir = "left";
-            if (currentAnimation == &walkingAnimationRight) dir = "right";
+            if (player1.currentAnimation == &player1.walkingAnimationUp) dir = "up";
+            if (player1.currentAnimation == &player1.walkingAnimationDown) dir = "down";
+            if (player1.currentAnimation == &player1.walkingAnimationLeft) dir = "left";
+            if (player1.currentAnimation == &player1.walkingAnimationRight) dir = "right";
+            // if (currentAnimation == &walkingAnimationRight) dir = "right";
                 int eraseObj = collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, dir, true);
             if(eraseObj)
             {
@@ -514,7 +481,6 @@ void Game::run()
                         {
                         for (int newX{0}; newX < 20; newX++)
                         {
-                            std::cout << "yep" << std::endl;
                             if (inventoryArray[newX] == 0) 
                             {
                                     found = 1;
@@ -617,8 +583,11 @@ void Game::run()
                     view1.zoom(0.99f);
         }
 
-        animatedSprite.play(*currentAnimation);
-        animatedSprite.move(movement * frameTime.asSeconds());
+        //animatedSprite.play(*currentAnimation);
+        // animatedSprite.move(movement * frameTime.asSeconds());
+
+        player1.animatedSprite.play(*player1.currentAnimation);
+        player1.animatedSprite.move(movement * frameTime.asSeconds());
 
         monster1.animatedSprite.play(*monster1.currentAnimation);
         //view1.setCenter(animatedSprite.getPosition());
@@ -630,7 +599,7 @@ void Game::run()
         // std::cout << "PlayerPos x " << playerPos.x << "PlayerPos.y " << playerPos.y << std::endl;
 
 
-        view1.setCenter(animatedSprite.getPosition());
+        view1.setCenter(player1.animatedSprite.getPosition());
         //if (playerPos.x < 320) view1.setCenter(320, playerPos.y);
         if (playerPos.x < (vSize.x / 2 )) view1.setCenter((vSize.x / 2), playerPos.y);
 
@@ -649,13 +618,14 @@ void Game::run()
         // if no key was pressed stop the animation
         if (noKeyWasPressed)
         {
-            animatedSprite.stop();
+            player1.animatedSprite.stop();
         }
         noKeyWasPressed = true;
 
         // update AnimatedSprite
-        animatedSprite.update(frameTime);
+        // animatedSprite.update(frameTime);
         monster1.animatedSprite.update(frameTime);
+        player1.animatedSprite.update(frameTime);
 
         // draw
         // Use render !!!
@@ -671,7 +641,8 @@ void Game::run()
           window.draw(map3);
           // window.draw(animatedSprite);
           window.draw(monster1.animatedSprite);
-          window.draw(animatedSprite);
+          // window.draw(animatedSprite);
+          window.draw(player1.animatedSprite);
           window.draw(map4);
           // window.draw(sBackground);
         }
@@ -683,7 +654,8 @@ void Game::run()
           window.draw(map1_1);
           window.draw(map1_2);
           window.draw(map1_3);
-          window.draw(animatedSprite);
+          window.draw(player1.animatedSprite);
+          // window.draw(animatedSprite);
           window.draw(map1_4);
         }
 
@@ -715,7 +687,7 @@ void Game::render()
 {
             window.clear();
             //window.draw(sBackground);
-            window.draw(animatedSprite);
+            // window.draw(animatedSprite);
             window.display();
 }
 
