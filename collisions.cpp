@@ -1,5 +1,5 @@
 #include <iostream>
-#include "collisions.hpp"
+#include "collisions.h"
 #include <string>
 
 CollisionsDetection::CollisionsDetection()
@@ -114,4 +114,112 @@ int CollisionsDetection::playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[
 
 
     return 0;
+}
+
+int CollisionsDetection::playerEnemies(sf::Vector2f &playerPos, sf::Vector2f &enemiesPos)
+{
+    // std::cout << "playerPos y " << playerPos.y << std::endl;
+    // std::cout << "enemiesPos y " << enemiesPos.y << std::endl;
+
+    if (enemiesPos.x < playerPos.x + 32 && enemiesPos.x > playerPos.x + 16 && enemiesPos.y < playerPos.y + 50 && playerPos.y < enemiesPos.y + 32)
+    {
+        std::cout << "player go to left" << std::endl;
+        return -96;
+    }
+
+    if (enemiesPos.x + 32 > playerPos.x && enemiesPos.x < playerPos.x - 16 && enemiesPos.y < playerPos.y + 50 && playerPos.y < enemiesPos.y + 32)
+    {
+        std::cout << "player go to right" << std::endl;
+        return 96;
+    }
+
+    if (enemiesPos.y < playerPos.y + 32 && enemiesPos.y > playerPos.y + 16 && enemiesPos.x < playerPos.x + 50 && playerPos.x < enemiesPos.x + 32)
+    {
+        std::cout << "player go to top" << std::endl;
+        return -32;
+    }
+
+    if (enemiesPos.y + 32 > playerPos.y && enemiesPos.y < playerPos.y - 16 && enemiesPos.x < playerPos.x + 50 && playerPos.x < enemiesPos.x + 32)
+    {
+        std::cout << "player go to bottom" << std::endl;
+        return 32;
+    }
+    return 0;
+}
+
+int CollisionsDetection::playerEnemies(sf::Vector2f &movement, Creature &monster1, Creature &player1)
+{
+  if (player1.animatedSprite.getGlobalBounds().intersects(monster1.animatedSprite.getGlobalBounds()))
+  {
+      if (monster1.currentAnimation == &monster1.walkingAnimationUp) movement.y -= 400;
+      if (monster1.currentAnimation == &monster1.walkingAnimationDown) movement.y += 400;
+      if (monster1.currentAnimation == &monster1.walkingAnimationLeft) movement.x -= 400;
+      if (monster1.currentAnimation == &monster1.walkingAnimationRight) movement.x += 400;
+  }
+  return 0;
+}
+
+int CollisionsDetection::playerEnemies(sf::Vector2f &movement, sf::FloatRect mFR, sf::FloatRect pFR)
+{
+    if (mFR.intersects(pFR))
+    {
+            movement.y -= 1500;
+    }
+}
+
+void CollisionsDetection::enemiesMove(sf::Vector2f &movementMonster, Creature &monster1, Creature &player1, int (current2Map)[400], int (current3Map)[400])
+{
+    int * current2MapP = current2Map;
+    int * current3MapP = current3Map;
+    sf::Vector2f monsterPos = monster1.animatedSprite.getPosition();
+
+    if (player1.animatedSprite.getGlobalBounds().left < monster1.animatedSprite.getGlobalBounds().left)
+    {
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "left", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "left", 0))
+            {
+                    movementMonster.x = -51;
+            }
+    }
+
+    if (player1.animatedSprite.getGlobalBounds().left + player1.animatedSprite.getGlobalBounds().width > monster1.animatedSprite.getGlobalBounds().left + monster1.animatedSprite.getGlobalBounds().width)
+    {
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "right", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "right", 0))
+            {
+                    movementMonster.x = +51;
+            }
+    }
+    if (player1.animatedSprite.getGlobalBounds().top < monster1.animatedSprite.getGlobalBounds().top)
+    {
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "up", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "up", 0))
+            {
+                    movementMonster.y = -50;
+            }
+    }
+    if (player1.animatedSprite.getGlobalBounds().top + player1.animatedSprite.getGlobalBounds().height > monster1.animatedSprite.getGlobalBounds().top + monster1.animatedSprite.getGlobalBounds().height)
+    {
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "down", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "down", 0))
+            {
+                    movementMonster.y = +50;
+            }
+    }
+    int goLeft = player1.animatedSprite.getGlobalBounds().left - monster1.animatedSprite.getGlobalBounds().left;
+    if (goLeft < 0)
+    {
+            monster1.currentAnimation = &monster1.walkingAnimationLeft;
+            goLeft = -goLeft;
+    }
+    else monster1.currentAnimation = &monster1.walkingAnimationRight;
+
+    int goTop  = player1.animatedSprite.getGlobalBounds().top - monster1.animatedSprite.getGlobalBounds().top;
+    if (goTop < 0)
+    {
+            goTop = -goTop;
+            if (goLeft < goTop) 
+            {
+                    monster1.currentAnimation = &monster1.walkingAnimationUp;
+                    return;
+            }
+    }
+    if (goLeft < goTop) monster1.currentAnimation = &monster1.walkingAnimationDown;
+    // else monster1.currentAnimation = &monster1.walkingAnimationDown;
 }

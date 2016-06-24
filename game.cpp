@@ -3,12 +3,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+
 #include "game.hpp"
 #include "items.h"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
 #include "map_manager.hpp"
-#include "collisions.hpp"
+#include "collisions.h"
 #include "inventory.h"
 #include "entity.h"
 #include "creature.h"
@@ -58,6 +59,7 @@ void Game::run()
              std::cout << hasZ << std::endl;
      }
     sf::Clock clock;
+    sf::Clock clock2;
     levelNumber = false;
     // Two way to make view
     // create a view with the rectangular area of the 2D world to show
@@ -86,10 +88,12 @@ void Game::run()
     Items items;
     // item.readItem();
 
-    Creature monster1("monster1", "Asset/player.png", 1.4);
+    Creature monster1("monster1", "Asset/gorksprite96-128.png", 1.4);
     monster1.printId();
+    monster1.printHealth();
 
-    Creature player1("player1", "Asset/player.png", 1.4);
+    Creature player1("player1", "Asset/player.png", 1.4, 6);
+    player1.printHealth();
 
     sf::Clock frameClock;
     float speed = 60.f; // 80.f
@@ -267,6 +271,7 @@ void Game::run()
     while(window.isOpen())
     {
         sf::Time elapsed1 = clock.getElapsedTime();
+        sf::Time elapsed2 = clock2.getElapsedTime();
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -281,6 +286,7 @@ void Game::run()
         sf::Vector2f playerPos = player1.animatedSprite.getPosition();
         // if a key was pressed set the correct animation and move correctly
         sf::Vector2f movement(0.f, 0.f);
+        sf::Vector2f movementMonster(0.f, 0.f);
 
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) && playerPos.y >= 0)
         {
@@ -454,8 +460,9 @@ void Game::run()
         }
 
         // Need to check if m_inventory is not full before add a new item
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) && pInventory.numberObject < pInventory.maxObject)
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) && pInventory.numberObject < pInventory.maxObject && elapsed1.asSeconds() > 0.2)
         {
+            clock.restart();
             std::string dir{"dir"};
             if (player1.currentAnimation == &player1.walkingAnimationUp) dir = "up";
             if (player1.currentAnimation == &player1.walkingAnimationDown) dir = "down";
@@ -576,6 +583,30 @@ void Game::run()
             speed = 80.f;
         }
 
+        /*// Enemies Hit player
+        sf::Vector2f enemiePos = monster1.animatedSprite.getPosition();
+        if (collisions.playerEnemies(playerPos, enemiePos) && elapsed1.asSeconds() > 0.2)
+        {
+                clock.restart();
+                int a = collisions.playerEnemies(playerPos, enemiePos);
+                if (a == -96)
+                {
+                        movement.x -= 2000.f;
+                }
+                if (a == 96)
+                {
+                        movement.x += 1500.f;
+                }
+                if (a == -32)
+                {
+                        movement.y -= 2000.f;
+                }
+                if (a == 32)
+                {
+                        movement.y += 2000.f;
+                }
+        }*/
+
         sf::Vector2f vSize = view1.getSize();
         if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::V) || sf::Joystick::isButtonPressed(0, 4)) && vSize.x > 640 && vSize.y > 480)
         // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 160 && vSize.y > 120)
@@ -586,9 +617,19 @@ void Game::run()
         //animatedSprite.play(*currentAnimation);
         // animatedSprite.move(movement * frameTime.asSeconds());
 
+        if(elapsed2.asSeconds() > 1)
+        {
+            std::cout << monster1.animatedSprite.getGlobalBounds().left << std::endl;
+            collisions.playerEnemies(movement, monster1, player1);
+            collisions.enemiesMove(movementMonster, monster1, player1, current2Map, current3Map);
+        }
+
+        // collisions.playerEnemies(movement, monster1, player1);
+
         player1.animatedSprite.play(*player1.currentAnimation);
         player1.animatedSprite.move(movement * frameTime.asSeconds());
 
+        monster1.animatedSprite.move(movementMonster * frameTime.asSeconds());
         monster1.animatedSprite.play(*monster1.currentAnimation);
         //view1.setCenter(animatedSprite.getPosition());
         //view1.setCenter(400, 300);
@@ -639,12 +680,9 @@ void Game::run()
           window.draw(map1);
           window.draw(map2);
           window.draw(map3);
-          // window.draw(animatedSprite);
           window.draw(monster1.animatedSprite);
-          // window.draw(animatedSprite);
           window.draw(player1.animatedSprite);
           window.draw(map4);
-          // window.draw(sBackground);
         }
         else
         {
@@ -654,8 +692,8 @@ void Game::run()
           window.draw(map1_1);
           window.draw(map1_2);
           window.draw(map1_3);
+          window.draw(monster1.animatedSprite);
           window.draw(player1.animatedSprite);
-          // window.draw(animatedSprite);
           window.draw(map1_4);
         }
 

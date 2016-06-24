@@ -10,7 +10,9 @@
 class Creature : public Entity
 {
 public:
-    Creature(std::string mId, std::string textureLFF, double scale = 1);
+    Creature(std::string mId, std::string textureLFF, double scale = 1, int health = 1);
+    void printHealth() const;
+    int getHealth();
 
 public:
    Animation walkingAnimationDown;
@@ -22,6 +24,13 @@ public:
    AnimatedSprite animatedSprite;
 
    sf::Texture texture;
+
+   bool touched;
+   sf::Vector2f oldPosition;
+   int ejectedDir;
+
+private:
+   int health;
 
 };
 

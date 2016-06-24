@@ -1,8 +1,12 @@
 #include "creature.h"
 #include "Animation.hpp"
 
-Creature::Creature(std::string mId, std::string textureLFF, double scale) : Entity(mId)
+Creature::Creature(std::string mId, std::string textureLFF, double scale, int mhealth) : Entity(mId)
 {
+    oldPosition.x = 0.f;
+    oldPosition.y = 0.f;
+    touched = false;
+    this->health = mhealth;
     if (!texture.loadFromFile(textureLFF))
     {
         std::cout << "Failed to load " << this->getId() << " spritesheet" << std::endl;
@@ -32,11 +36,22 @@ Creature::Creature(std::string mId, std::string textureLFF, double scale) : Enti
     walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
     walkingAnimationUp.addFrame(sf::IntRect(0, 96, 32, 32));
 
-    currentAnimation = &walkingAnimationUp;
+    currentAnimation = &walkingAnimationUp; //currentAnimation*
 
     animatedSprite.setFrameTime(sf::seconds(0.2));
     animatedSprite.play();
     animatedSprite.setLooped(true);
     animatedSprite.setScale(scale, scale);
-    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(1280, 1400)/ 2));
+    animatedSprite.setPosition(sf::Vector2f(sf::Vector2i(900, 1600)/ 2));
+}
+
+
+void Creature::printHealth() const
+{
+    std::cout << this->getId() << " " << this->health << " HP" << std::endl;
+}
+
+int Creature::getHealth()
+{
+        return this->health;
 }
