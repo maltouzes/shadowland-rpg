@@ -617,7 +617,7 @@ void Game::run()
         //animatedSprite.play(*currentAnimation);
         // animatedSprite.move(movement * frameTime.asSeconds());
 
-        if(elapsed2.asSeconds() > 1)
+        if(elapsed2.asSeconds() > 1 && !showInventory)
         {
             std::cout << monster1.animatedSprite.getGlobalBounds().left << std::endl;
             collisions.playerEnemies(movement, monster1, player1);
