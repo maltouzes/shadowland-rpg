@@ -30,3 +30,7 @@ Usage:
 You can reach me on:
 * Github: http://github.com/maltouzes/brain-color-game
 * Email: maltouzes [at] gmail [dot] com
+
+License:
+* see COPYING
+* see AUTHORS
