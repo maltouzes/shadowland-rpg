@@ -21,8 +21,11 @@ You can pickup objects on the ground but can't use them
 Prerequisites:
 * SFML-2.3.2
 
-* You need to export the sfml lib (change it from your real path)
-export LD_LIBRARY_PATH=/home/user/SFML-2.3.2/lib
+* Update the MAKEFILE and change all SFML path to the appropriate directory and change SFML-2.x.x to your current SFML version
+
+* You need to export the sfml lib (change it from your real path, and your current SFML version)
+export LD_LIBRARY_PATH=/home/user/SFML-2.x.x/lib
+e.g: export LD_LIBRARY_PATH=/home/maltouzes/SFML-2.3.2/lib
 
 Usage:
 * ./jeux
