@@ -511,8 +511,9 @@ void Game::run()
 
             for(auto elem : pInventory.m_inventory)
             {
-                std::cout << elem.first << " " << elem.second << std::endl;;
+                std::cout << elem.first << " " << elem.second << std::endl;
             }
+            std::cout << std::endl;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
@@ -619,7 +620,7 @@ void Game::run()
 
         if(elapsed2.asSeconds() > 1 && !showInventory)
         {
-            std::cout << monster1.animatedSprite.getGlobalBounds().left << std::endl;
+            // std::cout << monster1.animatedSprite.getGlobalBounds().left << std::endl;
             collisions.playerEnemies(movement, monster1, player1);
             collisions.enemiesMove(movementMonster, monster1, player1, current2Map, current3Map);
         }

@@ -1,27 +1,36 @@
-#LIBS=-lsfml-graphics -lsfml-window -lsfml-system
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 CXXFLAGS=-g -std=c++11
+makefile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(makefile_path))))
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
 
 all: main
 
 INSTALL?=install
 
 main: main.o
-	@echo "** Building Game.cpp"
-	g++ -std=c++11 -o jeux -g entity.h creature.h creature.cpp inventory.h inventory.cpp collisions.h collisions.cpp map_manager.hpp map_manager.cpp tilemap.cpp Animation.hpp Animation.cpp AnimatedSprite.hpp AnimatedSprite.cpp item.cpp item.hpp items.cpp items.h game.hpp game.cpp main.cpp -I/home/user/SFML-2.3.2/include -L/home/user/SFML-2.3.2/lib -L/home/user/cpp/sfml/point-and-click/lib -lsfml-graphics -lsfml-window -lsfml-system
-	export LD_LIBRARY_PATH=/home/user/SFML-2.3.2/lib
-	@echo "Please run jeux"
+	@echo $(ROOT_DIR)
+	@echo "** Building shadowland"
+	g++ -std=c++11 -o game -g entity.h creature.h creature.cpp inventory.h inventory.cpp collisions.h collisions.cpp map_manager.hpp map_manager.cpp tilemap.cpp Animation.hpp Animation.cpp AnimatedSprite.hpp AnimatedSprite.cpp item.cpp item.hpp items.cpp items.h game.hpp game.cpp main.cpp $(LIBS)
+	@echo "Go to Game directory"
+	@echo "And run Shadowland!"
+	@echo "Enjoy!"
 
 clean:
 	@echo "** Removing object files and executable..."
-	rm -f game *.o
+	rm -r $(ROOT_DIR)/Game
+	rm game
 	@echo ""
 
-install: Game
+install: main
 	@echo '** Installing...'
-	$(INSTALL) -D Game $(DESTDIR)~/Programmes/cpp/sfml/pacman
+	$(INSTALL) -D game $(ROOT_DIR)/Game/Shadowland
+	cp -R $(ROOT_DIR)/Asset $(ROOT_DIR)/Game
+	rm game
 	@echo ""
 
 uninstall:
 	@echo '** Uninstalling...'
-	rm -f ~/Programmes/cpp/sfml/pacman/Game
+	rm -f $(ROOT_DIR)/Game/
 	@echo ""
