@@ -84,7 +84,7 @@ void Game::run()
 
     // set up the animations for all four directions (set spritesheet and push frames)
     Inventory pInventory;
-    Item item;
+    // Item item;
     Items items;
     // item.readItem();
 
