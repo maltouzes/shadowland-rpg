@@ -13,7 +13,7 @@ main: main.o
 	@echo ""
 	@echo "--------------------------"
 	@echo "** Building ShadowLand **"
-	g++ -std=c++11 -o game -g entity.h creature.h creature.cpp inventory.h inventory.cpp collisions.h collisions.cpp map_manager.hpp map_manager.cpp tilemap.cpp Animation.hpp Animation.cpp AnimatedSprite.hpp AnimatedSprite.cpp item.cpp item.hpp items.cpp items.h game.hpp game.cpp main.cpp $(LIBS)
+	g++ -std=c++11 -o game -g entity.h creature.h creature.cpp inventory.h inventory.cpp collisions.h collisions.cpp map_manager.h map_manager.cpp tilemap.cpp Animation.hpp Animation.cpp AnimatedSprite.hpp AnimatedSprite.cpp item.cpp item.hpp items.cpp items.h game.h game.cpp main.cpp $(LIBS)
 
 clean:
 	@echo ""

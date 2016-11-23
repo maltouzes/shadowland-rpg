@@ -4,11 +4,11 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include "game.hpp"
+#include "game.h"
 #include "items.h"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
-#include "map_manager.hpp"
+#include "map_manager.h"
 #include "collisions.h"
 #include "inventory.h"
 #include "entity.h"

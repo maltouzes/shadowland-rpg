@@ -19,7 +19,8 @@ You can pickup objects on the ground but can't use them
 
 # Installation on computer
 Prerequisites:
-* SFML-2.3.2 or later (SFML-2.x.x)
+* SFML-2.1 or later (SFML-2.x.x)
+* Don't work with SFML-1
 
 Installation:
 * make install clean

@@ -1,5 +1,5 @@
-#ifndef MAP_MANAGER_HPP
-#define MAP_MANAGER_HPP
+#ifndef MAP_MANAGER_H
+#define MAP_MANAGER_H
 
 #include <cstring>
 #include <string>

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include "map_manager.hpp"
+#include "map_manager.h"
 
 #include <typeinfo>
 MapManager::MapManager() :
