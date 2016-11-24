@@ -30,7 +30,7 @@ Usage:
 * ./Shadowland
 
 You can reach me on:
-* Github: http://github.com/maltouzes/brain-color-game
+* Github: http://github.com/maltouzes/shadowland-rpg
 * Email: maltouzes [at] gmail [dot] com
 
 License:
