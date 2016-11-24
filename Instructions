@@ -1,4 +1,4 @@
-Controls:
+# Controls:
 z-q-s-d: move the player
 v: zoom out
 m: change map
@@ -6,3 +6,6 @@ y: attack
 u: take object on the ground
 i: inventory
 R-shift: run very very fast (cheat, and bugs!)
+
+# Installation:
+- make install clean
