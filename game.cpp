@@ -84,9 +84,7 @@ void Game::run()
 
     // set up the animations for all four directions (set spritesheet and push frames)
     Inventory pInventory;
-    // Item item;
     Items items;
-    // item.readItem();
 
     Creature monster1("monster1", "Asset/gorksprite96-128.png", 1.4);
     monster1.printId();
@@ -459,7 +457,7 @@ void Game::run()
         }
         }
 
-        // Need to check if m_inventory is not full before add a new item
+        // Need to check if m_inventory is not full before add a new items
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) && pInventory.numberObject < pInventory.maxObject && elapsed1.asSeconds() > 0.2)
         {
             clock.restart();
@@ -717,7 +715,7 @@ void Game::processEvents()
 
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 {
-                    //Game::isSpriteClicked(Game::item.sItem);
+                        std::cout << "remove" << std::endl;
                 }
             }
 }
@@ -739,6 +737,5 @@ bool Game::isSpriteClicked (sf::Sprite& spr)
            && sf::Mouse::getPosition(window).y < (spr.getGlobalBounds().top + spr.getGlobalBounds().height))
     {
             std::cout << "click";
-            // item.call();
     }
 }

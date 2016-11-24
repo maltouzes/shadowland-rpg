@@ -5,7 +5,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include "item.hpp"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
 #include "tilemap.cpp"
@@ -16,7 +15,6 @@ public:
         Game();
         void run();
         sf::RenderWindow window;
-        Item item;
         Animation animation;
         Animation* currentAnimation;
         AnimatedSprite animatedSprite;
