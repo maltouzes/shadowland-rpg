@@ -19,8 +19,8 @@ Game::Game()
 : window(sf::VideoMode(1280, 960), "ShadowLand")
 {
     sf::Image icon;
-    if(!icon.loadFromFile("Asset/icon.png"));
-    window.setIcon(512, 512, icon.getPixelsPtr());
+    icon.loadFromFile("Asset/icon.png");
+    window.setIcon(32, 32, icon.getPixelsPtr());
     showInventory = 0;
 
 }
