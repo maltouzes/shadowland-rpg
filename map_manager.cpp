@@ -1,8 +1,8 @@
-#include <cstring>
-#include <string>
-#include <iostream>
-#include <fstream>
 #include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <string>
 #include "map_manager.h"
 
 #include <typeinfo>

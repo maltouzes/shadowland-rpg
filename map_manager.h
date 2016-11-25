@@ -1,11 +1,11 @@
 #ifndef MAP_MANAGER_H
 #define MAP_MANAGER_H
 
-#include <cstring>
-#include <string>
-#include <iostream>
-#include <fstream>
 #include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <string>
 #include <vector>
 
 class MapManager

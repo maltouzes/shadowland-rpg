@@ -1,5 +1,5 @@
-#include "creature.h"
 #include "Animation.hpp"
+#include "creature.h"
 
 Creature::Creature(std::string mId, std::string textureLFF, double scale, int mhealth) : Entity(mId)
 {

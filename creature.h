@@ -1,11 +1,11 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "entity.h"
-#include "Animation.hpp"
-#include "AnimatedSprite.hpp"
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Time.hpp>
+#include "Animation.hpp"
+#include "AnimatedSprite.hpp"
+#include "entity.h"
 
 class Creature : public Entity
 {

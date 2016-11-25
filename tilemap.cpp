@@ -1,7 +1,7 @@
+#include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <string>
-#include <iostream>
 
 class TileMap : public sf::Drawable, public sf::Transformable
 {

@@ -1,8 +1,8 @@
 #ifndef COLLISIONS_H
 #define COLLISIONS_H
 
-#include <SFML/Graphics.hpp>
 #include <string>
+#include <SFML/Graphics.hpp>
 #include "creature.h"
 
 class CollisionsDetection

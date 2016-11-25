@@ -5,8 +5,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include "Animation.hpp"
 #include "AnimatedSprite.hpp"
+#include "Animation.hpp"
 #include "tilemap.cpp"
 
 class Game

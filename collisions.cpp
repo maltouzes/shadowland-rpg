@@ -1,6 +1,6 @@
 #include <iostream>
-#include "collisions.h"
 #include <string>
+#include "collisions.h"
 
 CollisionsDetection::CollisionsDetection()
 {

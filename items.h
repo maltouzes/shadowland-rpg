@@ -1,8 +1,8 @@
 #ifndef ITEMS_H
 #define ITEMS_H
 
-#include <string>
 #include <map>
+#include <string>
 
 class Items
 {

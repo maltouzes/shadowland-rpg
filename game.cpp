@@ -1,18 +1,18 @@
-#include <string>
 #include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include "game.h"
-#include "items.h"
 #include "Animation.hpp"
 #include "AnimatedSprite.hpp"
-#include "map_manager.h"
 #include "collisions.h"
-#include "inventory.h"
-#include "entity.h"
 #include "creature.h"
+#include "inventory.h"
+#include "items.h"
+#include "entity.h"
+#include "game.h"
+#include "map_manager.h"
 
 Game::Game()
 // : window(sf::VideoMode(640, 480), "ShadowLand")
