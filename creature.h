@@ -10,7 +10,7 @@
 class Creature : public Entity
 {
 public:
-    Creature(std::string mId, std::string textureLFF, double scale = 1, int health = 1);
+    Creature(std::string mId, std::string textureLFF, double scale = 1, int health = 1, const int width = 64, const int height = 64);
     void printHealth() const;
     int getHealth();
 

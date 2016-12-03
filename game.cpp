@@ -86,11 +86,11 @@ void Game::run()
     Inventory pInventory;
     Items items;
 
-    Creature monster1("monster1", "Asset/gorksprite96-128.png", 1.4);
+    Creature monster1("monster1", "Asset/gorksprite96-128.png", 1.4, 1, 32, 32);
     monster1.printId();
     monster1.printHealth();
 
-    Creature player1("player1", "Asset/player.png", 1.4, 6);
+    Creature player1("player1", "Asset/player.png", 1.4, 6, 32, 32);
     player1.printHealth();
 
     sf::Clock frameClock;

@@ -1,7 +1,7 @@
 #include "Animation.hpp"
 #include "creature.h"
 
-Creature::Creature(std::string mId, std::string textureLFF, double scale, int mhealth) : Entity(mId)
+Creature::Creature(std::string mId, std::string textureLFF, double scale, int mhealth, const int width, const int height) : Entity(mId)
 {
     oldPosition.x = 0.f;
     oldPosition.y = 0.f;
@@ -13,28 +13,28 @@ Creature::Creature(std::string mId, std::string textureLFF, double scale, int mh
     }
 
     walkingAnimationDown.setSpriteSheet(texture);
-    walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-    walkingAnimationDown.addFrame(sf::IntRect(64, 0, 32, 32));
-    walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-    walkingAnimationDown.addFrame(sf::IntRect(0, 0, 32, 32));
+    walkingAnimationDown.addFrame(sf::IntRect(width, 0, width, height));
+    walkingAnimationDown.addFrame(sf::IntRect(width*2, 0, width, height));
+    walkingAnimationDown.addFrame(sf::IntRect(width, 0, width, height));
+    walkingAnimationDown.addFrame(sf::IntRect(0, 0, width, height));
 
     walkingAnimationLeft.setSpriteSheet(texture);
-    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect(64, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-    walkingAnimationLeft.addFrame(sf::IntRect(0, 32, 32, 32));
+    walkingAnimationLeft.addFrame(sf::IntRect(width, height, width, height));
+    walkingAnimationLeft.addFrame(sf::IntRect(width*2, height, width, height));
+    walkingAnimationLeft.addFrame(sf::IntRect(width, height, width, height));
+    walkingAnimationLeft.addFrame(sf::IntRect(0, height, width, height));
 
     walkingAnimationRight.setSpriteSheet(texture);
-    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect(64, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-    walkingAnimationRight.addFrame(sf::IntRect(0, 64, 32, 32));
+    walkingAnimationRight.addFrame(sf::IntRect(width, height*2, width, height));
+    walkingAnimationRight.addFrame(sf::IntRect(width*2, height*2, width, height));
+    walkingAnimationRight.addFrame(sf::IntRect(width, height*2, width, height));
+    walkingAnimationRight.addFrame(sf::IntRect(0, height*2, width, height));
 
     walkingAnimationUp.setSpriteSheet(texture);
-    walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-    walkingAnimationUp.addFrame(sf::IntRect(64, 96, 32, 32));
-    walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-    walkingAnimationUp.addFrame(sf::IntRect(0, 96, 32, 32));
+    walkingAnimationUp.addFrame(sf::IntRect(width, height*3, width, height));
+    walkingAnimationUp.addFrame(sf::IntRect(width*2, height*3, width, height));
+    walkingAnimationUp.addFrame(sf::IntRect(width, height*3, width, height));
+    walkingAnimationUp.addFrame(sf::IntRect(0, height*3, width, height));
 
     currentAnimation = &walkingAnimationUp; //currentAnimation*
 
