@@ -19,6 +19,7 @@ void MapManager::setVector(std::vector<int>& level0, std::vector<int>& level1, s
   m_backgroundUp = backgroundup;
   m_block = block;
   m_obj = obj;
+  m_hide = hide;
   MapManager::mapHeight = 0;
   MapManager::mapWidth = 0;
   getWidth();

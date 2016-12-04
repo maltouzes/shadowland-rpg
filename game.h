@@ -61,7 +61,6 @@ private:
         std::string layer1;
         std::string layer2;
         std::string layer3;
-        int level[];
         bool levelNumber;
         bool showInventory;
         sf::FloatRect posInventory;

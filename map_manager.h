@@ -41,6 +41,7 @@ private:
     std::string m_backgroundUp;
     std::string m_block;
     std::string m_obj;
+    std::string m_hide; // need to implement hiden obj
     int m_numLayer;
     std::size_t posName;
     std::size_t posWidth;
