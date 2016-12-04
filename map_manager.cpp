@@ -108,7 +108,7 @@ int MapManager::getNumLayer()
     return this->m_numLayer;
 }
 
-int MapManager::initLayerName(std::string filename)
+void MapManager::initLayerName(std::string filename)
 {
   MapManager::m_fileName = filename;
   myFile.open(MapManager::m_fileName.c_str());
@@ -132,6 +132,7 @@ int MapManager::initLayerName(std::string filename)
       }
   }
   myFile.close();
+  return;
 }
 
 std::string MapManager::getLayerName(int numLayer)

@@ -6,7 +6,7 @@ CollisionsDetection::CollisionsDetection()
 {
 }
 
-int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction, bool catchObj)
+int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, std::string direction, bool catchObj)
 {
     int left_tile = playerPos.x / 64;
     int right_tile = (playerPos.x + 64) / 64 + 1;
@@ -95,7 +95,7 @@ int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (leve
     return 0;
 }
 
-int CollisionsDetection::playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction)
+int CollisionsDetection::playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width)
 {
     int left_tile = playerPos.x / 64;
     int right_tile = (playerPos.x + 64) / 64 + 1;
@@ -165,6 +165,7 @@ int CollisionsDetection::playerEnemies(sf::Vector2f &movement, sf::FloatRect mFR
     {
             movement.y -= 1500;
     }
+    return 0;
 }
 
 void CollisionsDetection::enemiesMove(sf::Vector2f &movementMonster, Creature &monster1, Creature &player1, int (current2Map)[400], int (current3Map)[400])
@@ -175,7 +176,7 @@ void CollisionsDetection::enemiesMove(sf::Vector2f &movementMonster, Creature &m
 
     if (player1.animatedSprite.getGlobalBounds().left < monster1.animatedSprite.getGlobalBounds().left)
     {
-            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "left", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "left", 0))
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, "left", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, "left", 0))
             {
                     movementMonster.x = -51;
             }
@@ -183,21 +184,21 @@ void CollisionsDetection::enemiesMove(sf::Vector2f &movementMonster, Creature &m
 
     if (player1.animatedSprite.getGlobalBounds().left + player1.animatedSprite.getGlobalBounds().width > monster1.animatedSprite.getGlobalBounds().left + monster1.animatedSprite.getGlobalBounds().width)
     {
-            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "right", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "right", 0))
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, "right", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, "right", 0))
             {
                     movementMonster.x = +51;
             }
     }
     if (player1.animatedSprite.getGlobalBounds().top < monster1.animatedSprite.getGlobalBounds().top)
     {
-            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "up", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "up", 0))
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, "up", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, "up", 0))
             {
                     movementMonster.y = -50;
             }
     }
     if (player1.animatedSprite.getGlobalBounds().top + player1.animatedSprite.getGlobalBounds().height > monster1.animatedSprite.getGlobalBounds().top + monster1.animatedSprite.getGlobalBounds().height)
     {
-            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, 20, "down", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, 20, "down", 0))
+            if(!CollisionsDetection::collisionsPlayerWall(monsterPos, current2MapP, 20, "down", 0) && !CollisionsDetection::collisionsPlayerWall(monsterPos, current3MapP, 20, "down", 0))
             {
                     movementMonster.y = +50;
             }

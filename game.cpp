@@ -182,12 +182,12 @@ void Game::run()
     current3Map = level3Map;
     current2Map = level2Map;
     current4Map = level4Map;
-    int levelHeight{20};
-    int levelWidth{20};
+    // int levelHeight{20};
+    // int levelWidth{20};
 
     int mapScale{4};
     int mapWidth{20};
-    int mapHeight{20};
+    // int mapHeight{20};
 
     if(!inventoryMap.load("Asset/tile2map16.png", sf::Vector2u(16, 16), inventoryArray, 4, 5)) // 10, 8
     {
@@ -292,13 +292,13 @@ void Game::run()
             if (!showInventory)
             {
             player1.currentAnimation = &player1.walkingAnimationUp;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "up", 0)
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "up", 0)))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, "up", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, "up", 0)))
             {
                 movement.y -= speed;
                 noKeyWasPressed = false;
             }
-            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "up", true);
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, "up", true);
             if(hideObj)
             {
                 for(int x= 0; x < 1600; x++)
@@ -337,7 +337,7 @@ void Game::run()
 
             if (!showInventory)
             {
-            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "down", true);
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, "down", true);
             if(hideObj)
             {
                 for(int x= 0; x < 1600; x++)
@@ -372,8 +372,8 @@ void Game::run()
 
             //currentAnimation = &walkingAnimationDown;
             player1.currentAnimation = &player1.walkingAnimationDown;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "down", 0)
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "down", 0)))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, "down", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, "down", 0)))
             {
                 movement.y += speed;
                 noKeyWasPressed = false;
@@ -386,13 +386,13 @@ void Game::run()
             if (!showInventory)
             {
             player1.currentAnimation = &player1.walkingAnimationLeft;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "left", 0)
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "left", 0)))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, "left", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, "left", 0)))
             {
                 movement.x -= speed;
                 noKeyWasPressed = false;
             }
-            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "left", true);
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, "left", true);
             if(hideObj)
             {
                 for(int x= 0; x < 1600; x++)
@@ -424,13 +424,13 @@ void Game::run()
             if (!showInventory)
             {
             player1.currentAnimation = &player1.walkingAnimationRight;
-            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, 20, "right", 0)
-               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, "right", 0)))
+            if(!collisions.collisionsPlayerWall(playerPos, current3Map, 20, "right", 0)
+               && (!collisions.collisionsPlayerWall(playerPos, current2Map, 20, "right", 0)))
             {
                 movement.x += speed;
                 noKeyWasPressed = false;
             }
-            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, 20, "right", true);
+            int hideObj = collisions.collisionsPlayerWall(playerPos, current4Map, 20, "right", true);
             if(hideObj)
             {
                 for(int x{0}; x < 1600; x++)
@@ -467,10 +467,10 @@ void Game::run()
             if (player1.currentAnimation == &player1.walkingAnimationLeft) dir = "left";
             if (player1.currentAnimation == &player1.walkingAnimationRight) dir = "right";
             // if (currentAnimation == &walkingAnimationRight) dir = "right";
-                int eraseObj = collisions.collisionsPlayerWall(playerPos, current2Map, 20, 20, dir, true);
+                int eraseObj = collisions.collisionsPlayerWall(playerPos, current2Map, 20, dir, true);
             if(eraseObj)
             {
-                int x = collisions.playerTakeObj(playerPos, current2Map, 20, 20, dir);
+                int x = collisions.playerTakeObj(playerPos, current2Map, 20);
                         pInventory.m_inventory[items.translateObj(current2Map[x])] += 1;
                         pInventory.numberObject +=1;
                         std::cout << "numberObj " << pInventory.numberObject << std::endl;
@@ -726,16 +726,4 @@ void Game::render()
             //window.draw(sBackground);
             // window.draw(animatedSprite);
             window.display();
-}
-
-bool Game::isSpriteClicked (sf::Sprite& spr)
-{
-
-    if(sf::Mouse::getPosition(window).x > spr.getGlobalBounds().left 
-           && sf::Mouse::getPosition(window).x < (spr.getGlobalBounds().left + spr.getGlobalBounds().width) 
-           && sf::Mouse::getPosition(window).y > spr.getGlobalBounds().top 
-           && sf::Mouse::getPosition(window).y < (spr.getGlobalBounds().top + spr.getGlobalBounds().height))
-    {
-            std::cout << "click";
-    }
 }

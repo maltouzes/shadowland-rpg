@@ -23,7 +23,7 @@ int Inventory::printInventory()
 int Inventory::getNumberObject(const int anArray[])
 {
     int numElement{0};
-    for (int i{0}; i < sizeof(anArray); i++)
+    for (unsigned int i{0}; i < sizeof(anArray); i++)
     {
             if (anArray[i] != 0) numElement += 1;
     }

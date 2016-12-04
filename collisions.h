@@ -10,9 +10,9 @@ class CollisionsDetection
 public:
     CollisionsDetection();
 
-    int collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction, bool catchObj);
+    int collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, std::string direction, bool catchObj);
 
-    int playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, unsigned int height, std::string direction);
+    int playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width);
 
     int playerEnemies(sf::Vector2f &playerPos, sf::Vector2f &enemiesPos);
 

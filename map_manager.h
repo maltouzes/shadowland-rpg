@@ -21,7 +21,7 @@ public:
     std::string getBlock();
     std::string getObj();
     int getNumLayer();
-    int initLayerName(std::string filename);
+    void initLayerName(std::string filename);
     std::string getLayerName(int numLayer);
     int getWidth();
     int getHeight();
