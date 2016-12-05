@@ -13,7 +13,7 @@ main: main.o
 	@echo ""
 	@echo "--------------------------"
 	@echo "** Building ShadowLand **"
-	g++ -std=c++11 -g -Wall -Wextra -pedantic -o game entity.h creature.h creature.cpp inventory.h inventory.cpp collisions.h collisions.cpp map_manager.h map_manager.cpp tilemap.cpp Animation.hpp Animation.cpp AnimatedSprite.hpp AnimatedSprite.cpp items.cpp items.h game.h game.cpp main.cpp $(LIBS)
+	g++ -std=c++11 -g -pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Wlogical-op -Winline -Wshadow -o game entity.h creature.h creature.cpp inventory.h inventory.cpp collisions.h collisions.cpp map_manager.h map_manager.cpp tilemap.cpp Animation.hpp Animation.cpp AnimatedSprite.hpp AnimatedSprite.cpp items.cpp items.h game.h game.cpp main.cpp $(LIBS)
 
 clean:
 	@echo ""

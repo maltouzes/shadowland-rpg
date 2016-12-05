@@ -47,7 +47,6 @@ private:
     std::size_t posWidth;
     int lengthLayerName;
     std::string layerName;
-    int switchLayerName;
     std::string layer1Name;
     std::string layer2Name;
     std::string layer3Name;

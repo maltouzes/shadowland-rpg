@@ -1,7 +1,7 @@
 #include "Animation.hpp"
 #include "creature.h"
 
-Creature::Creature(std::string mId, std::string textureLFF, double scale, int mhealth, const int width, const int height) : Entity(mId)
+Creature::Creature(std::string mId, std::string textureLFF, float scale, int mhealth, const int width, const int height) : Entity(mId)
 {
     oldPosition.x = 0.f;
     oldPosition.y = 0.f;
@@ -38,7 +38,7 @@ Creature::Creature(std::string mId, std::string textureLFF, double scale, int mh
 
     currentAnimation = &walkingAnimationUp; //currentAnimation*
 
-    animatedSprite.setFrameTime(sf::seconds(0.2));
+    animatedSprite.setFrameTime(sf::seconds(0.2f));
     animatedSprite.play();
     animatedSprite.setLooped(true);
     animatedSprite.setScale(scale, scale);

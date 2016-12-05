@@ -18,7 +18,6 @@ Game::Game()
 // : window(sf::VideoMode(640, 480), "ShadowLand")
 : window(sf::VideoMode(1280, 960), "ShadowLand")
 {
-    sf::Image icon;
     icon.loadFromFile("Asset/icon.png");
     window.setIcon(32, 32, icon.getPixelsPtr());
     showInventory = 0;
@@ -69,7 +68,7 @@ void Game::run()
     //sf::View view1(sf::Vector2f(120, 240), sf::Vector2f(160, 120)); // change the second if the map is bigger/smaller
     // setup window
 
-    sf::Vector2i screenDimensions(640,480);
+    screenDimensions = sf::Vector2i(640,480);
     //sf::RenderWindow window(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Animations!");
     window.setVerticalSyncEnabled(true);
     // window.setFramerateLimit(60);
@@ -93,7 +92,6 @@ void Game::run()
     Creature player1("player1", "Asset/player.png", 1.4, 6, 32, 32);
     player1.printHealth();
 
-    sf::Clock frameClock;
     float speed = 60.f; // 80.f
     bool noKeyWasPressed = true;
     // if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
@@ -110,23 +108,17 @@ void Game::run()
     }
 
     sInventory.setTexture(tInventory);
-    sf::FloatRect posInventory= sInventory.getGlobalBounds(); // inventory.width
+    posInventory= sInventory.getGlobalBounds(); // inventory.width (float rect)
 
     // map and map_manager
-    std::vector<int> level0;
-    std::vector<int> level1;
-    std::vector<int> level2;
-    std::vector<int> level3;
-    std::vector<int> level4;
-
     std::vector<int> level1_0;
     std::vector<int> level1_1;
     std::vector<int> level1_2;
     std::vector<int> level1_3;
     std::vector<int> level1_4;
 
-    std::string fileTmx = "Asset/auberge-outside-ok.tmx";
-    std::string fileTmx2 = "Asset/auberge-new.tmx";
+    fileTmx = "Asset/auberge-outside-ok.tmx";
+    fileTmx2 = "Asset/auberge-new.tmx";
 
     MapManager mapManager;
     mapManager.initLayerName(fileTmx);
@@ -134,11 +126,11 @@ void Game::run()
     MapManager mapManager2;
     mapManager2.initLayerName(fileTmx2);
 
-    std::string layer0 = mapManager.getLayerName(1);
-    std::string layer1 = mapManager.getLayerName(2);
-    std::string layer2 = mapManager.getLayerName(3);
-    std::string layer3 = mapManager.getLayerName(4);
-    std::string layer4 = mapManager.getLayerName(5);
+    layer0 = mapManager.getLayerName(1);
+    layer1 = mapManager.getLayerName(2);
+    layer2 = mapManager.getLayerName(3);
+    layer3 = mapManager.getLayerName(4);
+    layer4 = mapManager.getLayerName(5);
 
     std::string layer1_0 = mapManager2.getLayerName(1);
     std::string layer1_1 = mapManager2.getLayerName(2);
@@ -279,11 +271,11 @@ void Game::run()
                 window.close();
         }
 
-        sf::Time frameTime = frameClock.restart();
+        frameTime = frameClock.restart();
 
         sf::Vector2f playerPos = player1.animatedSprite.getPosition();
         // if a key was pressed set the correct animation and move correctly
-        sf::Vector2f movement(0.f, 0.f);
+        movement = sf::Vector2f(0.f, 0.f);
         sf::Vector2f movementMonster(0.f, 0.f);
 
         if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Z) || sf::Joystick::getAxisPosition(0, sf::Joystick::Y) < -20) && playerPos.y >= 0)
@@ -458,7 +450,7 @@ void Game::run()
         }
 
         // Need to check if m_inventory is not full before add a new items
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) && pInventory.numberObject < pInventory.maxObject && elapsed1.asSeconds() > 0.2)
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::U) || sf::Joystick::isButtonPressed(0, 0)) && pInventory.numberObject < pInventory.maxObject && elapsed1.asSeconds() > float(0.2))
         {
             clock.restart();
             std::string dir{"dir"};
@@ -533,7 +525,7 @@ void Game::run()
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::V) || sf::Joystick::isButtonPressed(0, 4))
         {
-                sf::Vector2f vSize = view1.getSize();
+                vSize = view1.getSize();
                 std::cout << vSize.x << std::endl;
                 std::cout << vSize.y << std::endl;
                 sf::Vector2u wSize = window.getSize();
@@ -547,7 +539,7 @@ void Game::run()
                     view1.zoom(1.01f);
                 }
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::M) && elapsed1.asSeconds() > 0.2)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::M) && elapsed1.asSeconds() > float(0.2))
         {
                 std::cout << elapsed1.asSeconds() << std::endl;
                 if (levelNumber == 1) levelNumber = 0;
@@ -556,7 +548,7 @@ void Game::run()
                 clock.restart();
         }
 
-        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::I) || (sf::Joystick::isButtonPressed(0, 3))) && elapsed1.asSeconds() > 0.2)
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::I) || (sf::Joystick::isButtonPressed(0, 3))) && elapsed1.asSeconds() > float(0.2))
         {
             showInventory = !showInventory;
             int posX = playerPos.x - posInventory.width/2;
@@ -606,7 +598,7 @@ void Game::run()
                 }
         }*/
 
-        sf::Vector2f vSize = view1.getSize();
+        vSize = view1.getSize();
         if (!(sf::Keyboard::isKeyPressed(sf::Keyboard::V) || sf::Joystick::isButtonPressed(0, 4)) && vSize.x > 640 && vSize.y > 480)
         // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::V) && vSize.x > 160 && vSize.y > 120)
         {

@@ -118,11 +118,11 @@ void MapManager::initLayerName(std::string filename)
   {
       if(line.find("layer name") != std::string::npos) 
       {
-              std::size_t posName = line.find("name=\"");
-              std::size_t posWidth = line.find("\" width=");
+              posName = line.find("name=\"");
+              posWidth = line.find("\" width=");
               posName += 6;
-              int lengthLayerName = posWidth - posName;
-              std::string layerName = line.substr(posName, lengthLayerName);
+              lengthLayerName = posWidth - posName;
+              layerName = line.substr(posName, lengthLayerName);
               if(switchLayerName == 1 && layer1Name == "") layer1Name = layerName;
               if(switchLayerName == 2 && layer1Name.compare(layerName)) layer2Name = layerName;
               if(switchLayerName == 3 && layer2Name.compare(layerName)) layer3Name = layerName;
@@ -157,11 +157,11 @@ int MapManager::getWidth()
   {
       if(line.find("layer name") != std::string::npos && MapManager::mapWidth == 0)
       {
-          std::size_t posWidth = line.find("width=\"");
+          posWidth = line.find("width=\"");
           std::size_t posHeight = line.find("height=\"");
           posWidth += 7; // lenght of the world in tmx file
           int lengthWidth = posHeight - posWidth - 2;
-          std::string stringMapWidth = line.substr (posWidth,lengthWidth);
+          stringMapWidth = line.substr (posWidth,lengthWidth);
           MapManager::mapWidth = std::stoi(stringMapWidth);
       }
   }
@@ -178,8 +178,8 @@ int MapManager::getHeight()
       {
           std::size_t posHeight = line.find("height=\"");
           posHeight += 8;
-          std::size_t posEnd = line.find("\">");
-          std::string stringMapHeight = line.substr (posHeight,(posEnd - posHeight));
+          posEnd = line.find("\">");
+          stringMapHeight = line.substr (posHeight,(posEnd - posHeight));
           MapManager::mapHeight = std::stoi(stringMapHeight);
       }
   }

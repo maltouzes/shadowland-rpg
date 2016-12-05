@@ -6,9 +6,9 @@
 class Entity
 {
 public:
-        Entity(std::string id)
+        Entity(std::string mid)
         {
-                this->id = id;
+                this->id = mid;
         }
 
         virtual std::string getId() const { return this->id; }

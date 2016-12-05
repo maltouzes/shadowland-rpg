@@ -12,7 +12,6 @@ You can pickup objects on the ground but can't use them
  * z-q-s-d: move the player
  * v: zoom out
  * m: change map
- * y: attack
  * u: take object on the ground
  * i: inventory
  * R-shift: run very very fast (cheat, and bugs!)
@@ -21,6 +20,7 @@ You can pickup objects on the ground but can't use them
 Prerequisites:
 * SFML-2.1 or later (SFML-2.x.x)
 * Don't work with SFML-1
+* g++ (recommend)
 
 Installation:
 * make install clean

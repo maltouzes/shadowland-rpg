@@ -56,11 +56,14 @@ private:
         std::vector<int> level1;
         std::vector<int> level2;
         std::vector<int> level3;
+        std::vector<int> level4;
         std::string fileTmx;
+        std::string fileTmx2;
         std::string layer0;
         std::string layer1;
         std::string layer2;
         std::string layer3;
+        std::string layer4;
         bool levelNumber;
         bool showInventory;
         sf::FloatRect posInventory;
