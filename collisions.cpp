@@ -8,10 +8,10 @@ CollisionsDetection::CollisionsDetection()
 
 int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width, std::string direction, bool catchObj)
 {
-    int left_tile = playerPos.x / 64;
-    int right_tile = (playerPos.x + 64) / 64 + 1;
-    int top_tile = playerPos.y / 64;
-    int bottom_tile = (playerPos.y + 64) / 64 + 1;
+    int left_tile = static_cast<int>(playerPos.x) / 64;
+    int right_tile = (static_cast<int>(playerPos.x) + 64) / 64 + 1;
+    int top_tile = static_cast<int>(playerPos.y) / 64;
+    int bottom_tile = (static_cast<int>(playerPos.y) + 64) / 64 + 1;
     if (right_tile == 0) right_tile = 1;
     if (bottom_tile == 0) bottom_tile = 1;
 
@@ -97,10 +97,10 @@ int CollisionsDetection::collisionsPlayerWall(sf::Vector2f &playerPos, int (leve
 
 int CollisionsDetection::playerTakeObj(sf::Vector2f &playerPos, int (levelXMap)[400], unsigned int width)
 {
-    int left_tile = playerPos.x / 64;
-    int right_tile = (playerPos.x + 64) / 64 + 1;
-    int top_tile = playerPos.y / 64;
-    int bottom_tile = (playerPos.y + 64) / 64 + 1;
+    int left_tile = static_cast<int>(playerPos.x) / 64;
+    int right_tile = (static_cast<int>(playerPos.x) + 64) / 64 + 1;
+    int top_tile = static_cast<int>(playerPos.y) / 64;
+    int bottom_tile = (static_cast<int>(playerPos.y) + 64) / 64 + 1;
     if (right_tile == 0) right_tile = 1;
     if (bottom_tile == 0) bottom_tile = 1;
 
@@ -203,7 +203,7 @@ void CollisionsDetection::enemiesMove(sf::Vector2f &movementMonster, Creature &m
                     movementMonster.y = +50;
             }
     }
-    int goLeft = player1.animatedSprite.getGlobalBounds().left - monster1.animatedSprite.getGlobalBounds().left;
+    int goLeft = static_cast<int>(player1.animatedSprite.getGlobalBounds().left - monster1.animatedSprite.getGlobalBounds().left);
     if (goLeft < 0)
     {
             monster1.currentAnimation = &monster1.walkingAnimationLeft;
@@ -211,7 +211,7 @@ void CollisionsDetection::enemiesMove(sf::Vector2f &movementMonster, Creature &m
     }
     else monster1.currentAnimation = &monster1.walkingAnimationRight;
 
-    int goTop  = player1.animatedSprite.getGlobalBounds().top - monster1.animatedSprite.getGlobalBounds().top;
+    int goTop  = static_cast<int>(player1.animatedSprite.getGlobalBounds().top - monster1.animatedSprite.getGlobalBounds().top);
     if (goTop < 0)
     {
             goTop = -goTop;

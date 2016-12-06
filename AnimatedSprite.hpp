@@ -24,7 +24,6 @@
 #ifndef ANIMATEDSPRITE_INCLUDE
 #define ANIMATEDSPRITE_INCLUDE
 
-#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Drawable.hpp>

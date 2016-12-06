@@ -22,7 +22,6 @@
 ////////////////////////////////////////////////////////////
 
 #include "Animation.hpp"
-#include <SFML/Graphics.hpp>
 
 Animation::Animation() : m_texture(NULL)
 {
