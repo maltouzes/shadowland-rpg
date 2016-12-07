@@ -4,14 +4,15 @@ current_dir := $(notdir $(patsubst %/,%,$(dir $(makefile_path))))
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 CC=g++
 CFLAGS=-c -g -std=c++11 -pedantic -Wall -Wextra -Wold-style-cast -Woverloaded-virtual -Wfloat-equal -Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default -Wswitch-enum -Wundef -Wlogical-op -Winline -Wshadow
+CLFLAGS=-Wall -shared -fPIC
 
 
 INSTALL?=install
 
 all: shadowland
 
-tilemap.o: tilemap.cpp
-	$(CC) $(CFLAGS) tilemap.cpp $(LIBS)
+libtilemap.so: tilemap.cpp
+	$(CC) $(CLFLAGS) -o libtilemap.so tilemap.cpp
 
 creature.o: creature.cpp Animation.o
 	$(CC) $(CFLAGS) creature.cpp Animation.o $(LIBS)
@@ -28,14 +29,14 @@ collision.o: collision.cpp
 map_manager.o: map_manager.cpp
 	$(CC) $(CFLAGS) map_manager.cpp
 
-AnimatedSprite.o: AnimatedSprite.cpp Animation.o
-	$(CC) $(CFLAGS) AnimatedSprite.cpp Animation.o $(LIBS)
+animatedsprite.so: AnimatedSprite.cpp Animation.o
+	$(CC) $(CLFLAGS) -o animatedsprite.so AnimatedSprite.cpp
 
 Animation.o: Animation.cpp
 	$(CC) $(CFLAGS) Animation.cpp $(LIBS)
 
-game.o: game.cpp AnimatedSprite.o Animation.o tilemap.o
-	$(CC) $(CFLAGS) game.cpp AnimatedSprite.o Animation.o tilemap.o $(LIBS)
+game.o: game.cpp animatedsprite.so Animation.o libtilemap.so
+	$(CC) $(CFLAGS) game.cpp Animation.o -lanimatedsprite -ltilemap $(LIBS)
 
 main.o: main.cpp game.o
 	$(CC) $(CFLAGS) main.cpp game.o
@@ -50,7 +51,9 @@ clean:
 	@echo ""
 	@echo "--------------------------"
 	@echo "** Clean up **"
-	rm *.o game
+	rm *.o
+	rm *.so
+	rm game
 	@echo ""
 	@echo "Go to ShadowLand directory"
 	@echo "And run Shadowland!"
