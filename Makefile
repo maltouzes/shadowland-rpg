@@ -14,8 +14,8 @@ all: shadowland
 libtilemap.so: tilemap.cpp
 	$(CC) $(CLFLAGS) -o libtilemap.so tilemap.cpp
 
-creature.o: creature.cpp Animation.o
-	$(CC) $(CFLAGS) creature.cpp Animation.o $(LIBS)
+creature.o: creature.cpp animation.so
+	$(CC) $(CFLAGS) creature.cpp
 
 items.o: items.cpp
 	$(CC) $(CFLAGS) items.cpp
@@ -29,14 +29,14 @@ collision.o: collision.cpp
 map_manager.o: map_manager.cpp
 	$(CC) $(CFLAGS) map_manager.cpp
 
-animatedsprite.so: AnimatedSprite.cpp Animation.o
+animatedsprite.so: AnimatedSprite.cpp animation.so
 	$(CC) $(CLFLAGS) -o animatedsprite.so AnimatedSprite.cpp
 
-Animation.o: Animation.cpp
-	$(CC) $(CFLAGS) Animation.cpp $(LIBS)
+animation.so: Animation.cpp
+	$(CC) $(CLFLAGS) -o animation.so Animation.cpp
 
-game.o: game.cpp animatedsprite.so Animation.o libtilemap.so
-	$(CC) $(CFLAGS) game.cpp Animation.o -lanimatedsprite -ltilemap $(LIBS)
+game.o: game.cpp animatedsprite.so animation.so libtilemap.so
+	$(CC) $(CFLAGS) game.cpp -lanimation -lanimatedsprite -ltilemap $(LIBS)
 
 main.o: main.cpp game.o
 	$(CC) $(CFLAGS) main.cpp game.o

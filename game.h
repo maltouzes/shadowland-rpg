@@ -22,7 +22,6 @@ public:
         sf::Vector2i screenDimensions;
         sf::Vector2f movement;
         sf::Time frameTime;
-        void render();
 
 private:
         void processEvents();

@@ -696,26 +696,3 @@ void Game::run()
         window.display();
     }
 }
-
-void Game::processEvents()
-{
-            sf::Event event;
-            while(Game::window.pollEvent(event))
-            {
-                if(event.key.code == sf::Keyboard::Escape) window.close();
-                if(event.type == sf::Event::Closed) window.close();
-
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                {
-                        std::cout << "remove" << std::endl;
-                }
-            }
-}
-
-void Game::render()
-{
-            window.clear();
-            //window.draw(sBackground);
-            // window.draw(animatedSprite);
-            window.display();
-}
