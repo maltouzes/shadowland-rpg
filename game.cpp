@@ -94,9 +94,7 @@ void Game::run()
 
     float speed = 60.f; // 80.f
     bool noKeyWasPressed = true;
-    // if(!tBackground.loadFromFile("Asset/auberge-outside.png"))
     if(!tBackground.loadFromFile("Asset/background-dark.png"))
-    // if(!tBackground.loadFromFile("Asset/testpourri.png"))
     {
         std::cout << "Failed to load background" << std::endl;
     }
@@ -660,9 +658,7 @@ void Game::run()
         player1.animatedSprite.update(frameTime);
 
         // draw
-        // Use render !!!
         window.clear();
-        // window.draw(sBackground);
         if(levelNumber == 0)
         {
           current3Map = level3Map;
