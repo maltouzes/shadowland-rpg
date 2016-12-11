@@ -1,0 +1,5 @@
+- use xml parser (probably tinyxml2)
+- user path algorithm: Breadth First Search, Dijkstra's Algorithm, A*
+  (probably Dijkastra's)
+- solve all -Wconversion errors
+- send this to a debian repo (just kidding!)
